@@ -2,5 +2,16 @@
     <string name="app_name">App Portfolio </string>
     <string name="action_settings">Settings</string>
 
+    <!-- content_main -->
+    <string name="Title">My Nanodegree App</string>
+    <string name="text_button1">Popular Movies</string>
+    <string name="text_button2">Stock Hawk</string>
+    <string name="text_button3">Build It Bigger</string>
+    <string name="text_button4">Make Your App Material</string>
+    <string name="text_button5">Go Ubiquotous</string>
+    <string name="text_button6">Capstone: My Own Project</string>
+
+
+
 
 </resources>

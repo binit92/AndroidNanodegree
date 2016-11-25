@@ -24,48 +24,42 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Nanodegree Apps"/>
+            android:text="@string/Title"/>
 
         <Button
             android:id="@+id/btn_popular_movies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Popular Movies"
+            style="@style/Button"
+            android:text="@string/text_button1"
             android:onClick="popularMovies"/>
 
         <Button
             android:id="@+id/btn_stock_hawk"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Stock Hawk"
+            style="@style/Button"
+            android:text="@string/text_button2"
             android:onClick="stockHawk"/>
 
         <Button
             android:id="@+id/build_it_bigger"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Build it Bigger"
+            style="@style/Button"
+            android:text="@string/text_button3"
             android:onClick="buildItBigger"/>
 
         <Button
             android:id="@+id/make_your_app_material"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Make Your App Material"
+            style="@style/Button"
+            android:text="@string/text_button4"
             android:onClick="makeYourAppMaterial"/>
 
         <Button
             android:id="@+id/go_ubiquotous"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go Ubiquotous"
+            style="@style/Button"
+            android:text="@string/text_button5"
             android:onClick="goUbiquotous"/>
 
         <Button
             android:id="@+id/capstone_my_own_project"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Capstone : My Own Project"
+            style="@style/Button"
+            android:text="@string/text_button6"
             android:onClick="capstoneMyOwnProject"/>
     </LinearLayout>
 
