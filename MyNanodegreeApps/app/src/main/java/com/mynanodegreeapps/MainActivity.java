@@ -1,9 +1,8 @@
 package com.mynanodegreeapps;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity  {
+import com.mynanodegreeapps.Movies.MoviesActivity;
 
-    private final String messageHeader = "This button will launch";
+public class MainActivity extends AppCompatActivity {
+
+    private final String messageHeader = "This button will launch: ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,6 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
     }
 
     @Override
@@ -48,22 +47,25 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void popularMovies(View view){
-        showToast(messageHeader+"Popular Movies Project");
+        //showToast(messageHeader+getString(R.string.text_Popular_Movies));
+        Intent intent = new Intent(getApplicationContext(),MoviesActivity.class);
+        startActivity(intent);
+
     }
     public void stockHawk(View view){
-        showToast(messageHeader+"Stock Hawk Project");
+        showToast(messageHeader+getString(R.string.text_Stock_Hawk));
     }
     public void buildItBigger(View view){
-        showToast(messageHeader+"Build It Bigger Project");
+        showToast(messageHeader+getString(R.string.text_Build_IT_Bigger));
     }
     public void makeYourAppMaterial(View view){
-        showToast(messageHeader+"Make Your App Material Project");
+        showToast(messageHeader+getString(R.string.text_Make_Your_APP_Material));
     }
     public void goUbiquotous(View view){
-        showToast(messageHeader+"Go Ubiquotous Project");
+        showToast(messageHeader+getString(R.string.text_Go_Ubiquotous));
     }
     public void capstoneMyOwnProject(View view){
-        showToast(messageHeader+"Capstone Project");
+        showToast(messageHeader+getString(R.string.text_Capstone_My_Own_Project));
     }
 
     void showToast(CharSequence message){
@@ -73,4 +75,6 @@ public class MainActivity extends AppCompatActivity  {
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
     }
+
+
 }

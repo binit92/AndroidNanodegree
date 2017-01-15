@@ -4,14 +4,22 @@
 
     <!-- content_main -->
     <string name="Title">My Nanodegree App</string>
-    <string name="text_button1">Popular Movies</string>
-    <string name="text_button2">Stock Hawk</string>
-    <string name="text_button3">Build It Bigger</string>
-    <string name="text_button4">Make Your App Material</string>
-    <string name="text_button5">Go Ubiquotous</string>
-    <string name="text_button6">Capstone: My Own Project</string>
+    <string name="text_Movies"> Movies</string>
+    <string name="text_Movies_Details">Movies Details</string>
+    <string name="text_Stock_Hawk">Stock Hawk</string>
+    <string name="text_Build_IT_Bigger">Build It Bigger</string>
+    <string name="text_Make_Your_APP_Material">Make Your App Material</string>
+    <string name="text_Go_Ubiquotous">Go Ubiquotous</string>
+    <string name="text_Capstone_My_Own_Project">Capstone: My Own Project</string>
 
-
-
+    <!-- movies-->
+    <string name="fa6ce03ab345663514eab7c7a9459cc7">API_KEY</string>
+    <string name="popular"> Popular</string>
+    <string name="top_rated"> Top Rated</string>
+    <string name="url">URL</string>
+    <string name="title">Title</string>
+    <string name="plot">Plot</string>
+    <string name="releaseDate">Release Date</string>
+    <string name="voteAvg"> Average Vote</string>
 
 </resources>
