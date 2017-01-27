@@ -3,6 +3,9 @@ package com.mynanodegreeapps.Movies;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,13 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.GridView;
 import com.mynanodegreeapps.R;
 import java.util.ArrayList;
 
 
 /**
  * Created by binit92 on 1/14/2017.
+ *
+ *  notes on recyclerview: https://guides.codepath.com/android/using-the-recyclerview#create-the-recyclerview-within-layout
  */
 public class MovieFragment extends Fragment implements FetchMoviesResponse {
 
@@ -24,11 +28,15 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
     private final String TAG_POPULAR = "popular";
     private final String TAG_TOPRATED = "top_rated";
 
+    private String CURRENT_TAG = TAG_POPULAR;
 
+    LinearLayoutManager layoutManager;
+    ImageAdapter2 imageAdapter2;
     ArrayList<TMDBMovie> movies;
 
     View rootview;
-    GridView movieGrid;
+   // GridView movieGrid;
+    RecyclerView movieView;
 
     public MovieFragment(){}
 
@@ -45,20 +53,28 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
         setHasOptionsMenu(true);
 
         if(rootview!= null) {
-            movieGrid = (GridView) rootview.findViewById(R.id.movieGrid);
-            movieGrid.setClickable(true);
+            //movieGrid = (GridView) rootview.findViewById(R.id.movieGrid);
+            //movieGrid.setClickable(true);
+            movieView = (RecyclerView) rootview.findViewById(R.id.movieGrid1);
+            movieView.setLayoutManager(new GridLayoutManager(getContext(),4));
+            movieView.setClickable(true);
+
         }
+
         return rootview;
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_popular:
+                 CURRENT_TAG= TAG_POPULAR;
                  updateMoviesList(TAG_POPULAR);
                  break;
 
             case R.id.action_toprated:
+                 CURRENT_TAG=TAG_TOPRATED;
                  updateMoviesList(TAG_TOPRATED);
                  break;
 
@@ -72,13 +88,13 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
     @Override
     public void onStart() {
         super.onStart();
-        updateMoviesList(TAG_POPULAR);
+        updateMoviesList(CURRENT_TAG);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateMoviesList(TAG_POPULAR);
+        updateMoviesList(CURRENT_TAG);
     }
 
     private void updateMoviesList(String tag_movie){
@@ -90,7 +106,9 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
     @Override
     public void processFinish(ArrayList<TMDBMovie> movieList) {
         this.movies=movieList;
-        movieGrid.setAdapter(new ImageAdapter(getContext(),movieList));
+
+        imageAdapter2 = new ImageAdapter2(getContext(),movies);
+        movieView.setAdapter(imageAdapter2);
 
     }
 

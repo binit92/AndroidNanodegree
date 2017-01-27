@@ -1,0 +1,115 @@
+package com.mynanodegreeapps.Movies;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.mynanodegreeapps.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+/**
+ * Created by binit92 on 1/27/2017.
+ */
+
+// Create the basic adapter extending from RecyclerView
+// Note:- that we specify the custom ViewHolder which gives us access to our views
+public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.ViewHolder>{
+
+    private Context c ;
+    ArrayList<TMDBMovie> movieList;
+
+    // Pass in the movie array into the constructor
+    public ImageAdapter2(Context context, ArrayList<TMDBMovie> movieList) {
+        this.c = context;
+        this.movieList = movieList;
+    }
+
+
+    // Usually involves inflating a layout from XML and returning the holder
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        // Inflate the custom layout
+        View moviePosterView = inflater.inflate(R.layout.custom_movieposter,parent,false);
+
+        // Return a new holder instance
+        ViewHolder viewHolder = new ViewHolder(moviePosterView);
+        return viewHolder;
+    }
+
+    // Involves populating data into the item through holder
+    @Override
+    public void onBindViewHolder(ImageAdapter2.ViewHolder viewHolder , final int position) {
+        // Get the data model based on position
+        TMDBMovie selectedMovie = movieList.get(position);
+
+        // Set item views based on your views and data model
+        ImageView imageView = viewHolder.posterImage;
+
+        final String baseImageUrl = "http://image.tmdb.org/t/p/w185";
+        String url = baseImageUrl+ selectedMovie.getMoviePosterPath();
+
+        //Automatically creates bacground thread and loads image
+        Picasso.with(c).load(url).into(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String title = movieList.get(position).getMovieName();
+                String url = baseImageUrl+movieList.get(position).getMoviePosterPath();
+                String releaseDate =  movieList.get(position).getMovieReleaseDate();
+                String voteAvg = movieList.get(position).getMovieVoteAverage();
+                String plot = movieList.get(position).getMoviePlotSynopsis();
+
+                Intent intent = new Intent(c,MovieDetailActivity.class);
+                intent.putExtra("title",title);
+                intent.putExtra("url",url);
+                intent.putExtra("releaseDate",releaseDate);
+                intent.putExtra("voteAvg",voteAvg);
+                intent.putExtra("plot",plot);
+
+                c.startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return movieList.size();
+    }
+
+    // Easy access to the context object in the recyclerview
+    private Context getContext() {
+        return c;
+    }
+
+
+    // Provide a direct reference to each of the views within a data item
+    // Used to cache the views within the item layout for fast access
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // Your holder should contain a member variable
+        // for any view that will be set as you render a row
+        ImageView posterImage;
+        // We also create a constructor that accepts the entire item row
+        // and does the view lookups to find each subview
+        public ViewHolder(View itemView) {
+            // Stores the itemView in a public final member variable that can be used
+            // to access the context from any ViewHolder instance.
+            super(itemView);
+
+            posterImage = (ImageView) itemView.findViewById(R.id.moviePoster);
+        }
+    }
+
+
+}

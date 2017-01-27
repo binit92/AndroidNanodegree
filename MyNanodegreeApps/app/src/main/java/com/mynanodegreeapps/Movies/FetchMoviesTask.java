@@ -27,6 +27,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<TMDBMovie
     protected void onPostExecute(ArrayList<TMDBMovie> movieList) {
            delegate.processFinish(movieList);
 
+
     }
 
     @Override
