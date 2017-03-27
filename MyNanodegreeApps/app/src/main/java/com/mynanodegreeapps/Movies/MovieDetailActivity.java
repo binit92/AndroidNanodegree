@@ -33,6 +33,7 @@ public class MovieDetailActivity extends AppCompatActivity{
         String plot= intent.getStringExtra("plot");
         String release_date = intent.getStringExtra("releaseDate");
         String vote = intent.getStringExtra("voteAvg");
+        String id = intent.getStringExtra("id");
 
         Log.d("url",url);
 

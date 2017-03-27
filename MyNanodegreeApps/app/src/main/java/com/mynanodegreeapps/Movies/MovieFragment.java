@@ -1,10 +1,10 @@
 package com.mynanodegreeapps.Movies;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,8 +13,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.mynanodegreeapps.BuildConfig;
 import com.mynanodegreeapps.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 
 
 /**
@@ -22,7 +35,7 @@ import java.util.ArrayList;
  *
  *  notes on recyclerview: https://guides.codepath.com/android/using-the-recyclerview#create-the-recyclerview-within-layout
  */
-public class MovieFragment extends Fragment implements FetchMoviesResponse {
+public class MovieFragment extends Fragment implements IMoviesConstants {
 
     private final String LOG_TAG = MovieFragment.class.getSimpleName();
     private final String TAG_POPULAR = "popular";
@@ -30,13 +43,15 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
 
     private String CURRENT_TAG = TAG_POPULAR;
 
-    LinearLayoutManager layoutManager;
-    ImageAdapter2 imageAdapter2;
-    ArrayList<TMDBMovie> movies;
+    ImageAdapter imageAdapter;
+    ArrayList<TMDBMovie> movieArrayList = new ArrayList<>();
 
     View rootview;
    // GridView movieGrid;
     RecyclerView movieView;
+
+    StringRequest movieListRequest;
+    RequestQueue movieListRequestQueue =  Volley.newRequestQueue(getActivity().getApplicationContext());
 
     public MovieFragment(){}
 
@@ -60,6 +75,7 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
             movieView.setClickable(true);
 
         }
+
 
         return rootview;
 
@@ -97,19 +113,64 @@ public class MovieFragment extends Fragment implements FetchMoviesResponse {
         updateMoviesList(CURRENT_TAG);
     }
 
-    private void updateMoviesList(String tag_movie){
-        FetchMoviesTask FPM = new FetchMoviesTask();
-        FPM.delegate=this;
-        FPM.execute(tag_movie);
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
-    @Override
-    public void processFinish(ArrayList<TMDBMovie> movieList) {
-        this.movies=movieList;
+    private void updateMoviesList(String tag_movie){
+        Uri requestUri = Uri.parse(MOVIEDB_BASE_URL+tag_movie).buildUpon()
+                .appendQueryParameter(API_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                .appendQueryParameter(LANUGAGE,"en-us")
+                .build();
 
-        imageAdapter2 = new ImageAdapter2(getContext(),movies);
-        movieView.setAdapter(imageAdapter2);
+        // Request a string response from the provided URL
+        movieListRequest =  new StringRequest(Request.Method.GET, requestUri.toString(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
+                        try {
+
+                            JSONObject movieJSON = new JSONObject(response);
+                            JSONArray movieArray = movieJSON.getJSONArray(MDB_RESULTS);
+
+                            for (int i = 0; i < movieArray.length(); i++) {
+                                JSONObject movieObject = movieArray.getJSONObject(i);
+
+                                String movieName = movieObject.getString(MDB_MOVIENAME);
+                                String moviePosterPath = movieObject.getString(MDB_POSTERPATH);
+                                String movieReleaseDate = movieObject.getString(MDB_RELEASEDATE);
+                                String movieVoteAverage = movieObject.getString(MDB_VOTEAVERAGE);
+                                String moviePlotSynopsis = movieObject.getString(MDB_PLOTSYNOPSIS);
+                                String movieID = movieObject.getString(MDB_ID);
+
+                                TMDBMovie tmdbMovie = new TMDBMovie(movieName, moviePosterPath, movieReleaseDate, movieVoteAverage, moviePlotSynopsis, movieID);
+                                movieArrayList.add(tmdbMovie);
+                            }
+
+                        }catch (JSONException je){
+                            je.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+
+        });
+
+        // set the TAG
+        movieListRequest.setTag(LOG_TAG);
+
+        // Add the request to the RequestQueue
+        movieListRequestQueue.add(movieListRequest);
+
+
+        // Set Adapter
+        imageAdapter = new ImageAdapter(getContext(),movieArrayList);
+        movieView.setAdapter(imageAdapter);
     }
 
 

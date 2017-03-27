@@ -5,19 +5,21 @@ package com.mynanodegreeapps.Movies;
  */
 public class TMDBMovie {
 
-    String movieName= null;
-    String moviePosterPath=null;
-    String movieReleaseDate=null;
-    String movieVoteAverage=null;
-    String moviePlotSynopsis=null;
+    String movieName;
+    String moviePosterPath;
+    String movieReleaseDate;
+    String movieVoteAverage;
+    String moviePlotSynopsis;
+    String movieId;
 
 
-    TMDBMovie(String movieName, String moviePosterPath,String movieReleaseDate, String movieVoteAverage, String moviePlotSynopsis){
+    TMDBMovie(String movieName, String moviePosterPath,String movieReleaseDate, String movieVoteAverage, String moviePlotSynopsis,String movieId){
         this.movieName = movieName;
         this.moviePosterPath= moviePosterPath;
         this.movieReleaseDate = movieReleaseDate;
         this.movieVoteAverage = movieVoteAverage;
         this.moviePlotSynopsis = moviePlotSynopsis;
+        this.movieId = movieId;
     }
 
     String getMovieName(){
@@ -33,4 +35,6 @@ public class TMDBMovie {
     String getMovieVoteAverage() {return movieVoteAverage;}
 
     String getMoviePlotSynopsis() {return moviePlotSynopsis;}
+
+    String getMovieId() {return movieId;}
 }

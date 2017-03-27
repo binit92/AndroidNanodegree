@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 // Create the basic adapter extending from RecyclerView
 // Note:- that we specify the custom ViewHolder which gives us access to our views
-public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.ViewHolder>{
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
     private Context c ;
     ArrayList<TMDBMovie> movieList;
 
     // Pass in the movie array into the constructor
-    public ImageAdapter2(Context context, ArrayList<TMDBMovie> movieList) {
+    public ImageAdapter(Context context, ArrayList<TMDBMovie> movieList) {
         this.c = context;
         this.movieList = movieList;
     }
@@ -47,7 +47,7 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.ViewHolder
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(ImageAdapter2.ViewHolder viewHolder , final int position) {
+    public void onBindViewHolder(ImageAdapter.ViewHolder viewHolder , final int position) {
         // Get the data model based on position
         TMDBMovie selectedMovie = movieList.get(position);
 
@@ -69,6 +69,7 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.ViewHolder
                 String releaseDate =  movieList.get(position).getMovieReleaseDate();
                 String voteAvg = movieList.get(position).getMovieVoteAverage();
                 String plot = movieList.get(position).getMoviePlotSynopsis();
+                String id = movieList.get(position).getMovieId();
 
                 Intent intent = new Intent(c,MovieDetailActivity.class);
                 intent.putExtra("title",title);
@@ -76,6 +77,7 @@ public class ImageAdapter2 extends RecyclerView.Adapter<ImageAdapter2.ViewHolder
                 intent.putExtra("releaseDate",releaseDate);
                 intent.putExtra("voteAvg",voteAvg);
                 intent.putExtra("plot",plot);
+                intent.putExtra("id",id);
 
                 c.startActivity(intent);
             }
