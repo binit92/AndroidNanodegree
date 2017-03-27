@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.mynanodegreeapps.BuildConfig;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,17 +28,13 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<TMDBMovie
 
     protected void onPostExecute(ArrayList<TMDBMovie> movieList) {
            delegate.processFinish(movieList);
-
-
     }
 
     @Override
     protected ArrayList<TMDBMovie> doInBackground(String... query) {
 
         ArrayList<TMDBMovie> results = new ArrayList<>();
-
         HttpURLConnection urlConnection = null;
-
 
         String movieJsonStr = null;
         String movieFlag = query[0];
@@ -52,7 +50,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<TMDBMovie
         // Todo: Add API KEY under API_PARAM to successfully run !
         try {
             Uri builtUri = Uri.parse(MOVIEDB_BASE_URL + movieFlag).buildUpon()
-                    .appendQueryParameter(API_PARAM,"")
+                    .appendQueryParameter(API_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
                     .appendQueryParameter(LANUGAGE, language)
                     .build();
 
@@ -96,6 +94,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<TMDBMovie
         final String MDB_RELEASEDATE ="release_date";
         final String MDB_VOTEAVERAGE ="vote_average";
         final String MDB_PLOTSYNOPSIS="overview";
+        final String MDB_ID = "id";
 
         JSONObject movieJSON = new JSONObject(movieJsonStr);
         JSONArray movieArray = movieJSON.getJSONArray(MDB_RESULTS);
@@ -108,11 +107,14 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<TMDBMovie
             String movieReleaseDate = movieObject.getString(MDB_RELEASEDATE);
             String movieVoteAverage = movieObject.getString(MDB_VOTEAVERAGE);
             String moviePlotSynopsis = movieObject.getString(MDB_PLOTSYNOPSIS);
+            String movieID = movieObject.getString(MDB_ID);
 
-            TMDBMovie tmdbMovie = new TMDBMovie(movieName,moviePosterPath,movieReleaseDate,movieVoteAverage,moviePlotSynopsis);
+            TMDBMovie tmdbMovie = new TMDBMovie(movieName,moviePosterPath,movieReleaseDate,movieVoteAverage,moviePlotSynopsis,movieID);
             movieArrayList.add(tmdbMovie);
 
         }
 
     }
+
+
 }
