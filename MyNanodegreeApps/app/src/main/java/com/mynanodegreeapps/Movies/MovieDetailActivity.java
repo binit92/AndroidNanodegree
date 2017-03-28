@@ -28,26 +28,31 @@ public class MovieDetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_moviesdetails);
 
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        String title = intent.getStringExtra("title");
-        String plot= intent.getStringExtra("plot");
-        String release_date = intent.getStringExtra("releaseDate");
-        String vote = intent.getStringExtra("voteAvg");
-        String id = intent.getStringExtra("id");
 
-        Log.d("url",url);
+        Bundle extras = intent.getExtras();
+        if(extras != null){
 
-        moviePoster = (ImageView) findViewById(R.id.movie_Image);
-        movieTitle = (TextView) findViewById(R.id.movie_Title);
-        moviePlot = (TextView) findViewById(R.id.movie_Plot);
-        movieRelease =(TextView) findViewById(R.id.movie_ReleaseDate);
-        movieVote = (TextView) findViewById(R.id.movie_Votes);
+            String url = extras.getString("url");
+            String title = extras.getString("title");
+            String plot= extras.getString("plot");
+            String release_date = extras.getString("releaseDate");
+            String vote = extras.getString("voteAvg");
+            String id = extras.getString("id");
 
-        Picasso.with(getApplicationContext()).load(url).resize(600,800).into(moviePoster);
-        movieTitle.setText(title);
-        moviePlot.setText(plot);
-        movieRelease.setText(release_date);
-        movieVote.setText(vote);
+            Log.d("url",url);
+
+            moviePoster = (ImageView) findViewById(R.id.movie_Image);
+            movieTitle = (TextView) findViewById(R.id.movie_Title);
+            moviePlot = (TextView) findViewById(R.id.movie_Plot);
+            movieRelease =(TextView) findViewById(R.id.movie_ReleaseDate);
+            movieVote = (TextView) findViewById(R.id.movie_Votes);
+
+            Picasso.with(getApplicationContext()).load(url).resize(600,800).into(moviePoster);
+            movieTitle.setText(title);
+            moviePlot.setText(plot);
+            movieRelease.setText(release_date);
+            movieVote.setText(vote);
+        }
 
     }
 }

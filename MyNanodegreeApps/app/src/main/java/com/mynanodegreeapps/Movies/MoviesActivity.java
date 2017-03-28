@@ -16,7 +16,7 @@ public class MoviesActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
-        MovieFragment pmf  = new MovieFragment();
+
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.popularmoviecontainer, new MovieFragment())

@@ -51,7 +51,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
     RecyclerView movieView;
 
     StringRequest movieListRequest;
-    RequestQueue movieListRequestQueue =  Volley.newRequestQueue(getActivity().getApplicationContext());
+    RequestQueue movieListRequestQueue ;
 
     public MovieFragment(){}
 
@@ -76,9 +76,9 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
 
         }
 
+        movieListRequestQueue =  Volley.newRequestQueue(this.getContext());
 
         return rootview;
-
     }
 
     @Override
@@ -172,6 +172,5 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
         imageAdapter = new ImageAdapter(getContext(),movieArrayList);
         movieView.setAdapter(imageAdapter);
     }
-
 
 }
