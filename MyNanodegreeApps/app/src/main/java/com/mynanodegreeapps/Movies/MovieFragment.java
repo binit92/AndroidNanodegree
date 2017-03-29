@@ -28,11 +28,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
-
 /**
- * Created by binit92 on 1/14/2017.
- *
+ *  Created by binit92 on 1/14/2017. *
  *  notes on recyclerview: https://guides.codepath.com/android/using-the-recyclerview#create-the-recyclerview-within-layout
  */
 public class MovieFragment extends Fragment implements IMoviesConstants {
@@ -44,10 +41,9 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
     private String CURRENT_TAG = TAG_POPULAR;
 
     ImageAdapter imageAdapter;
-    ArrayList<TMDBMovie> movieArrayList = new ArrayList<>();
+
 
     View rootview;
-   // GridView movieGrid;
     RecyclerView movieView;
 
     StringRequest movieListRequest;
@@ -73,11 +69,8 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
             movieView = (RecyclerView) rootview.findViewById(R.id.movieGrid1);
             movieView.setLayoutManager(new GridLayoutManager(getContext(),4));
             movieView.setClickable(true);
-
         }
-
         movieListRequestQueue =  Volley.newRequestQueue(this.getContext());
-
         return rootview;
     }
 
@@ -119,6 +112,8 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
     }
 
     private void updateMoviesList(String tag_movie){
+
+        // clear the arraylist for now
         Uri requestUri = Uri.parse(MOVIEDB_BASE_URL+tag_movie).buildUpon()
                 .appendQueryParameter(API_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
                 .appendQueryParameter(LANUGAGE,"en-us")
@@ -130,6 +125,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
                     @Override
                     public void onResponse(String response) {
 
+                        ArrayList<TMDBMovie> movieArrayList = new ArrayList<>();
                         try {
 
                             JSONObject movieJSON = new JSONObject(response);
@@ -147,7 +143,12 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
 
                                 TMDBMovie tmdbMovie = new TMDBMovie(movieName, moviePosterPath, movieReleaseDate, movieVoteAverage, moviePlotSynopsis, movieID);
                                 movieArrayList.add(tmdbMovie);
+
                             }
+
+                            // Set Adapter
+                            imageAdapter = new ImageAdapter(getContext(),movieArrayList);
+                            movieView.setAdapter(imageAdapter);
 
                         }catch (JSONException je){
                             je.printStackTrace();
@@ -166,11 +167,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
 
         // Add the request to the RequestQueue
         movieListRequestQueue.add(movieListRequest);
-
-
-        // Set Adapter
-        imageAdapter = new ImageAdapter(getContext(),movieArrayList);
-        movieView.setAdapter(imageAdapter);
     }
 
 }
