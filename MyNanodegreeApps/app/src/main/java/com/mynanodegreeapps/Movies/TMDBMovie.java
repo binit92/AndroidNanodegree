@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.Movies;
+package com.mynanodegreeapps.movies;
 
 /**
  * Created by binit92 on 12/4/2016.

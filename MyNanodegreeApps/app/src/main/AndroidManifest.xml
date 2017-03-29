@@ -21,11 +21,11 @@
         </activity>
 
         <activity
-            android:name=".Movies.MoviesActivity"
+            android:name=".movies.MoviesActivity"
             android:label="@string/text_Movies"/>
 
         <activity
-            android:name=".Movies.MovieDetailActivity"
+            android:name=".movies.MovieDetailActivity"
             android:label="@string/text_Movies_Details"/>
 
     </application>

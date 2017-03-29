@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.Movies;
+package com.mynanodegreeapps.movies;
 
 import android.net.Uri;
 import android.os.Bundle;

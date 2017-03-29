@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.Movies;
+package com.mynanodegreeapps.movies;
 
 import android.content.Context;
 import android.content.Intent;

@@ -7,7 +7,7 @@
 
     android:id="@+id/popularmoviecontainer"
     android:background="#C5CAE9"
-    tools:context=".Movies.MoviesActivity"
+    tools:context=".movies.MoviesActivity"
     tools:ignore="MergeRootFrame">>
 
 </LinearLayout>

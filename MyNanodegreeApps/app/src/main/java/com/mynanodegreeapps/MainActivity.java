@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.mynanodegreeapps.Movies.MoviesActivity;
+import com.mynanodegreeapps.movies.MoviesActivity;
 
 public class MainActivity extends AppCompatActivity {
 

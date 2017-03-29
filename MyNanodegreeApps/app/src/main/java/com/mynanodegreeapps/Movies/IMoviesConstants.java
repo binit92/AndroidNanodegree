@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.Movies;
+package com.mynanodegreeapps.movies;
 
 public interface IMoviesConstants {
 
