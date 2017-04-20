@@ -15,15 +15,15 @@ public class MovieContract {
     // relationship between a domain name and its website.  A convenient string to use for the
     // content authority is the package name for the app, which is guaranteed to be unique on the
     // device.
-    public static final String CONTENT_AUTHORITY = "com.example.android.sunshine.app";
+    public static final String CONTENT_AUTHORITY = "com.mynanodegreeapps";
 
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // Possible paths (appended to base content URI for possible URI's)
-    // For instance, content://com.example.android.sunshine.app/weather/ is a valid path for
-    // looking at weather data. content://com.example.android.sunshine.app/givemeroot/ will fail,
+    // For instance, content://com.nanodegree.moviedb/weather/ is a valid path for
+    // looking at movie data. content://com.nanodegree.moviedb/givemeroot/ will fail,
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_MOVIE = "movie";
@@ -39,7 +39,7 @@ public class MovieContract {
             // primarykey
         public static final String COLUMN_MOVIE_ID = "movie_id";
         public static final String COLUMN_MOVIE_NAME = "movie_name";
-        public static final String COLUMN_MOVIE_POSTERPATH = "movie_posterpath";
+        public static final String COLUMN_MOVIE_POSTER = "movie_posterpath";
         public static final String COLUMN_MOVIE_VOTEAVERAGE = "movie_voteaverage";
         public static final String COLUMN_MOVIE_RELEASEDATE = "movie_releasedate";
         public static final String COLUMN_MOVIE_PLOT_SYNOPSIS = "movie_plotsynopsis";

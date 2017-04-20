@@ -28,6 +28,10 @@
             android:name=".movies.MovieDetailActivity"
             android:label="@string/text_Movies_Details"/>
 
+        <provider
+            android:authorities= "com.mynanodegreeapps"
+            android:name=".data.MovieProvider" />
+
     </application>
 
 </manifest>

@@ -2,6 +2,8 @@ package com.mynanodegreeapps.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +25,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
     private Context c ;
     ArrayList<TMDBMovie> movieList;
+    private int source = 1;
+
+    public static final int SOURCE_NETWORK = 1;
+    public static final int SOURCE_DB = 2;
 
     // Pass in the movie array into the constructor
-    public ImageAdapter(Context context, ArrayList<TMDBMovie> movieList) {
+    public ImageAdapter(Context context, ArrayList<TMDBMovie> movieList, int source) {
         this.c = context;
         this.movieList = movieList;
+        this.source = source;
     }
-
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
@@ -54,35 +60,67 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         // Set item views based on your views and data model
         ImageView imageView = viewHolder.posterImage;
 
-        final String baseImageUrl = "http://image.tmdb.org/t/p/w185";
-        String url = baseImageUrl+ selectedMovie.getMoviePosterPath();
+        if(source == SOURCE_DB) {
+            byte[] imageArray = movieList.get(position).getMovieImageBlob();
+            Bitmap bm = BitmapFactory.decodeByteArray(imageArray, 0, imageArray.length);
+            imageView.setImageBitmap(bm);
 
-        //Automatically creates bacground thread and loads image
-        Picasso.with(c).load(url).into(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String title = movieList.get(position).getMovieName();
+                    byte[] imageArray = movieList.get(position).getMovieImageBlob();
+                    String releaseDate = movieList.get(position).getMovieReleaseDate();
+                    String voteAvg = movieList.get(position).getMovieVoteAverage();
+                    String plot = movieList.get(position).getMoviePlotSynopsis();
+                    String id = movieList.get(position).getMovieId();
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                    Intent intent = new Intent(c, MovieDetailActivity.class);
+                    intent.setType(Integer.toString(SOURCE_DB));
+                    intent.putExtra("title", title);
+                    intent.putExtra("imageBlob", imageArray);
+                    intent.putExtra("releaseDate", releaseDate);
+                    intent.putExtra("voteAvg", voteAvg);
+                    intent.putExtra("plot", plot);
+                    intent.putExtra("id", id);
 
-                String title = movieList.get(position).getMovieName();
-                String url = baseImageUrl+movieList.get(position).getMoviePosterPath();
-                String releaseDate =  movieList.get(position).getMovieReleaseDate();
-                String voteAvg = movieList.get(position).getMovieVoteAverage();
-                String plot = movieList.get(position).getMoviePlotSynopsis();
-                String id = movieList.get(position).getMovieId();
+                    c.startActivity(intent);
+                }
+            });
 
-                Intent intent = new Intent(c,MovieDetailActivity.class);
-                intent.putExtra("title",title);
-                intent.putExtra("url",url);
-                intent.putExtra("releaseDate",releaseDate);
-                intent.putExtra("voteAvg",voteAvg);
-                intent.putExtra("plot",plot);
-                intent.putExtra("id",id);
+        }else{
 
-                c.startActivity(intent);
-            }
-        });
+            final String baseImageUrl = "http://image.tmdb.org/t/p/w185";
+            String url = baseImageUrl + selectedMovie.getMoviePosterPath();
 
+            //Automatically creates bacground thread and loads image
+            Picasso.with(c).load(url).into(imageView);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String title = movieList.get(position).getMovieName();
+                    String url = baseImageUrl + movieList.get(position).getMoviePosterPath();
+                    String releaseDate = movieList.get(position).getMovieReleaseDate();
+                    String voteAvg = movieList.get(position).getMovieVoteAverage();
+                    String plot = movieList.get(position).getMoviePlotSynopsis();
+                    String id = movieList.get(position).getMovieId();
+
+                    Intent intent = new Intent(c, MovieDetailActivity.class);
+                    intent.setType(Integer.toString(SOURCE_NETWORK));
+                    intent.putExtra("title", title);
+                    intent.putExtra("url", url);
+                    intent.putExtra("releaseDate", releaseDate);
+                    intent.putExtra("voteAvg", voteAvg);
+                    intent.putExtra("plot", plot);
+                    intent.putExtra("id", id);
+
+                    c.startActivity(intent);
+                }
+            });
+
+        }
     }
 
     @Override
@@ -90,10 +128,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         return movieList.size();
     }
 
-    // Easy access to the context object in the recyclerview
-    private Context getContext() {
-        return c;
-    }
 
 
     // Provide a direct reference to each of the views within a data item

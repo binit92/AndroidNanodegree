@@ -19,7 +19,6 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
@@ -28,7 +27,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + MovieEntry.TABLE_NAME + " (" +
                 MovieEntry.COLUMN_MOVIE_ID + " INTEGER PRIMARY KEY," +
                 MovieEntry.COLUMN_MOVIE_NAME + " TEXT NOT NULL, " +
-                MovieEntry.COLUMN_MOVIE_POSTERPATH + " TEXT NOT NULL, " +
+                MovieEntry.COLUMN_MOVIE_POSTER + " BLOB NOT NULL, " +
                 MovieEntry.COLUMN_MOVIE_VOTEAVERAGE + " REAL NOT NULL, " +
                 MovieEntry.COLUMN_MOVIE_RELEASEDATE + " TEXT NOT NULL, " +
                 MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS + " TEXT NOT NULL " +

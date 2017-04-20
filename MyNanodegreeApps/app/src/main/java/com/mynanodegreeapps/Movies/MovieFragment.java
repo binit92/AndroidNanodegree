@@ -1,9 +1,13 @@
 package com.mynanodegreeapps.movies;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mynanodegreeapps.BuildConfig;
 import com.mynanodegreeapps.R;
+import com.mynanodegreeapps.data.MovieContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,12 +42,11 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
     private final String LOG_TAG = MovieFragment.class.getSimpleName();
     private final String TAG_POPULAR = "popular";
     private final String TAG_TOPRATED = "top_rated";
+    private final String TAG_FAVORITE = "favorite";
 
     private String CURRENT_TAG = TAG_POPULAR;
 
     ImageAdapter imageAdapter;
-
-
     View rootview;
     RecyclerView movieView;
 
@@ -87,6 +91,10 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
                  updateMoviesList(TAG_TOPRATED);
                  break;
 
+            case R.id.action_favorite:
+                 CURRENT_TAG=TAG_FAVORITE;
+                 fetchFromDb();
+                 break;
             default:
                  updateMoviesList(TAG_POPULAR);
                  break;
@@ -147,7 +155,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
                             }
 
                             // Set Adapter
-                            imageAdapter = new ImageAdapter(getContext(),movieArrayList);
+                            imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_NETWORK);
                             movieView.setAdapter(imageAdapter);
 
                         }catch (JSONException je){
@@ -168,5 +176,40 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
         // Add the request to the RequestQueue
         movieListRequestQueue.add(movieListRequest);
     }
+
+    private void fetchFromDb() {
+
+        // select all the movies that exists in db
+        Cursor movieCursor = getContext().getContentResolver().query(
+                MovieContract.MovieEntry.CONTENT_URI,
+                new String[]{"*"},
+                null,
+                null,
+                null);
+
+        ArrayList<TMDBMovie> movieArrayList = new ArrayList<>();
+        try{
+            while (movieCursor.moveToNext()) {
+
+                String movieID = movieCursor.getString(0);
+                String movieName = movieCursor.getString(1);
+                byte imageArray[] = movieCursor.getBlob(2);
+                String movieReleaseDate = movieCursor.getString(3);
+                String moviePlotSynopsis = movieCursor.getString(4);
+                String movieVoteAverage = movieCursor.getString(5);
+
+                TMDBMovie tmdbMovie = new TMDBMovie(movieName, imageArray, movieReleaseDate, movieVoteAverage, moviePlotSynopsis, movieID);
+                movieArrayList.add(tmdbMovie);
+
+            }
+        }finally {
+            movieCursor.close();
+        }
+       // reusing the same image adapter
+        imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_DB);
+        movieView.setAdapter(imageAdapter);
+
+    }
+
 
 }

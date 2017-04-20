@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.CancellationSignal;
 import android.support.annotation.Nullable;
 
 import com.mynanodegreeapps.data.MovieContract.MovieEntry;
@@ -52,7 +51,7 @@ public class MovieProvider extends ContentProvider {
 
 
     private static final String[] mALLMoviePosterPathProjection  = {
-                MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_MOVIE_POSTERPATH } ;
+                MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_MOVIE_POSTER} ;
 
     private static final String mMoviesByMovieIdSelection =
                 MovieEntry.TABLE_NAME + "." + MovieEntry.COLUMN_MOVIE_ID + " = ? ";
@@ -63,12 +62,6 @@ public class MovieProvider extends ContentProvider {
     private static final String mReviewByMovieIdSelection =
                 ReviewEntry.TABLE_NAME + "." + ReviewEntry.COLUMN_MOVIE_ID + " = ? ";
 
-
-    // Get All the Poster Paths from Movie Table
-    private Cursor getPosterPaths(Uri uri, String[] projection, String sortOrder){
-        queryBuilder.setTables(MovieEntry.TABLE_NAME);
-        return queryBuilder.query(mOpenHelper.getReadableDatabase(),projection,null,null,null,null,sortOrder);
-    }
 
     // Get Movie By Movie ID
     private Cursor getMovieByMovieID(Uri uri, String[] projection, String sortOrder){
@@ -100,11 +93,16 @@ public class MovieProvider extends ContentProvider {
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
 
+        System.out.println("--> authority is "+ authority);
+
         // 2) Use the addURI function to match each of the types.  Use the constants from
-        uriMatcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE_WITH_POSTERPATH);
-        uriMatcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE_BY_MOVIEID);
-        uriMatcher.addURI(authority, MovieContract.PATH_TRAILER, TRAILERS_BY_MOVIEID);
-        uriMatcher.addURI(authority, MovieContract.PATH_REVIEW, REVIEWS_BY_MOVIEID);
+        uriMatcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE);
+        uriMatcher.addURI(authority, MovieContract.PATH_MOVIE+"/*", MOVIE_WITH_POSTERPATH);
+        uriMatcher.addURI(authority, MovieContract.PATH_MOVIE+"/#", MOVIE_BY_MOVIEID);
+        uriMatcher.addURI(authority, MovieContract.PATH_TRAILER, TRAILERS);
+        uriMatcher.addURI(authority, MovieContract.PATH_TRAILER+"/#", TRAILERS_BY_MOVIEID);
+        uriMatcher.addURI(authority, MovieContract.PATH_REVIEW, REVIEWS);
+        uriMatcher.addURI(authority, MovieContract.PATH_REVIEW+"/#", REVIEWS_BY_MOVIEID);
 
         // 3) Return the new matcher!
         return uriMatcher;
@@ -121,6 +119,7 @@ public class MovieProvider extends ContentProvider {
     public String getType(Uri uri) {
         // Use the UriMatcher to decide what kind of URL this is
         final int match = mUriMatcher.match(uri);
+
         switch (match) {
             case MOVIE_WITH_POSTERPATH:
                 return MovieEntry.CONTENT_ITEM_TYPE;
@@ -137,18 +136,23 @@ public class MovieProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-
     }
 
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
         Cursor retCursor;
         switch (mUriMatcher.match(uri)){
-
-            case MOVIE_WITH_POSTERPATH: {
+            case MOVIE: {
                 //todo  : Is setting projection is right here ?
-                retCursor = getPosterPaths(uri,mALLMoviePosterPathProjection,sortOrder);
+                retCursor = db.query(MovieEntry.TABLE_NAME,
+                                projection,
+                                selection,
+                                null,
+                                null,
+                                null,
+                                sortOrder);
                 break;
             }
 
@@ -180,6 +184,7 @@ public class MovieProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        System.out.println("--> insert uri is + "+ uri);
         final int match = mUriMatcher.match(uri);
         Uri returnUri;
 

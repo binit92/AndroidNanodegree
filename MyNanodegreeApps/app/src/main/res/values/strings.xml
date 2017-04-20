@@ -16,6 +16,7 @@
     <string name="fa6ce03ab345663514eab7c7a9459cc7">API_KEY</string>
     <string name="popular"> Popular</string>
     <string name="top_rated"> Top Rated</string>
+    <string name="favorite"> Favorite </string>
     <string name="url">URL</string>
     <string name="title">Title</string>
     <string name="plot">Plot</string>

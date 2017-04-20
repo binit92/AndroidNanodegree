@@ -9,4 +9,8 @@ xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
 <item android:id="@+id/action_toprated" android:title="@string/top_rated"
     android:orderInCategory="99" app:showAsAction="never" />
+
+<item android:id="@+id/action_favorite" android:title="@string/favorite"
+    android:orderInCategory="98" app:showAsAction="never" />
+
 </menu>

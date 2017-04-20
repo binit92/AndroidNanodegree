@@ -12,10 +12,22 @@ public class TMDBMovie {
     String moviePlotSynopsis;
     String movieId;
 
+    byte[] movieImageBlob;
+
 
     TMDBMovie(String movieName, String moviePosterPath,String movieReleaseDate, String movieVoteAverage, String moviePlotSynopsis,String movieId){
         this.movieName = movieName;
         this.moviePosterPath= moviePosterPath;
+        this.movieReleaseDate = movieReleaseDate;
+        this.movieVoteAverage = movieVoteAverage;
+        this.moviePlotSynopsis = moviePlotSynopsis;
+        this.movieId = movieId;
+    }
+
+    // Todo : don't do multiple constructor as told in "Effective Java"
+    TMDBMovie(String movieName, byte[] movieImageBlob,String movieReleaseDate,String movieVoteAverage,String moviePlotSynopsis,String movieId){
+        this.movieName = movieName;
+        this.movieImageBlob = movieImageBlob;
         this.movieReleaseDate = movieReleaseDate;
         this.movieVoteAverage = movieVoteAverage;
         this.moviePlotSynopsis = moviePlotSynopsis;
@@ -37,4 +49,6 @@ public class TMDBMovie {
     String getMoviePlotSynopsis() {return moviePlotSynopsis;}
 
     String getMovieId() {return movieId;}
+
+    byte[] getMovieImageBlob() { return movieImageBlob; }
 }

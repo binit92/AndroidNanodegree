@@ -56,7 +56,7 @@ public class TestUtilities extends AndroidTestCase {
 
         movieValues.put(MovieEntry.COLUMN_MOVIE_ID,321612);
         movieValues.put(MovieEntry.COLUMN_MOVIE_NAME,"Beauty and the Beast");
-        movieValues.put(MovieEntry.COLUMN_MOVIE_POSTERPATH,"/45Y1G5FEgttPAwjTYic6czC9xCn.jpg");
+        movieValues.put(MovieEntry.COLUMN_MOVIE_POSTER,"/45Y1G5FEgttPAwjTYic6czC9xCn.jpg");
         movieValues.put(MovieEntry.COLUMN_MOVIE_RELEASEDATE,"2017-03-15");
         movieValues.put(MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS,"In the near future, a weary Logan cares for an ailing Professor X in a hide out on the Mexican border. But Logan's attempts to hide from the world and his legacy are up-ended when a young mutant arrives, being pursued by dark forces.");
         movieValues.put(MovieEntry.COLUMN_MOVIE_VOTEAVERAGE,7.2);
