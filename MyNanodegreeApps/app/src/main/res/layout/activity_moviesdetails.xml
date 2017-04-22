@@ -1,66 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/moviedetailcontainer"
-        tools:context=".movies.MoviesActivity"
-        tools:ignore="MergeRootFrame">>
+    android:id="@+id/moviedetailcontainer"
+    android:background="#C5CAE9"
+    tools:context=".movies.MovieDetailActivity"
+    tools:ignore="MergeRootFrame">>
 
-        <ImageView
-            android:id="@+id/movie_Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    
-        <ImageView
-            android:id="@+id/favorite"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:clickable="true"
-            android:src="@android:drawable/btn_star"
-            android:layout_alignParentBottom ="true"
-            android:layout_centerHorizontal ="true"/>
-        
-        <TextView
-            android:id="@+id/movie_Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    
-        <TextView
-            android:id="@+id/movie_Votes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    
-        <TextView
-            android:id="@+id/movie_ReleaseDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    
-        <TextView
-            android:id="@+id/movie_Plot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:id="@+id/trailerLayout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <LinearLayout
-            android:id="@+id/reviewLayout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

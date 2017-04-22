@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,11 +31,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     public static final int SOURCE_NETWORK = 1;
     public static final int SOURCE_DB = 2;
 
+    private IImageAdapterCallback iImageAdapterCallback;
+
     // Pass in the movie array into the constructor
-    public ImageAdapter(Context context, ArrayList<TMDBMovie> movieList, int source) {
+    public ImageAdapter(Context context, ArrayList<TMDBMovie> movieList, int source, IImageAdapterCallback callback) {
         this.c = context;
         this.movieList = movieList;
         this.source = source;
+        this.iImageAdapterCallback = callback;
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -75,6 +79,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     String plot = movieList.get(position).getMoviePlotSynopsis();
                     String id = movieList.get(position).getMovieId();
 
+                    Bundle b = new Bundle();
+                    b.putString("title",title);
+                    b.putByteArray("imageBlob",imageArray);
+                    b.putString("releaseDate", releaseDate);
+                    b.putString("voteAvg", voteAvg);
+                    b.putString("plot",plot);
+                    b.putString("id", id);
+                    b.putInt("source", source);
+
+                    /*
                     Intent intent = new Intent(c, MovieDetailActivity.class);
                     intent.setType(Integer.toString(SOURCE_DB));
                     intent.putExtra("title", title);
@@ -83,8 +97,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     intent.putExtra("voteAvg", voteAvg);
                     intent.putExtra("plot", plot);
                     intent.putExtra("id", id);
+                    */
+                    iImageAdapterCallback.onMovieSelect(b);
 
-                    c.startActivity(intent);
                 }
             });
 
@@ -107,6 +122,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     String plot = movieList.get(position).getMoviePlotSynopsis();
                     String id = movieList.get(position).getMovieId();
 
+                    Bundle b = new Bundle();
+                    b.putString("title",title);
+                    b.putString("url",url);
+                    b.putString("releaseDate", releaseDate);
+                    b.putString("voteAvg", voteAvg);
+                    b.putString("plot",plot);
+                    b.putString("id", id);
+                    b.putInt("source", source);
+
+
+                    /*
                     Intent intent = new Intent(c, MovieDetailActivity.class);
                     intent.setType(Integer.toString(SOURCE_NETWORK));
                     intent.putExtra("title", title);
@@ -115,8 +141,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     intent.putExtra("voteAvg", voteAvg);
                     intent.putExtra("plot", plot);
                     intent.putExtra("id", id);
+                    */
 
-                    c.startActivity(intent);
+
+                    iImageAdapterCallback.onMovieSelect(b);
+
                 }
             });
 

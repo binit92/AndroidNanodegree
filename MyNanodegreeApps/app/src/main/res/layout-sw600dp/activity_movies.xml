@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false">
+
+    <FrameLayout
+        android:id="@+id/movieRecyclerFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        tools:layout="@layout/fragment_movies"
+        android:background="@color/colorAccent"/>
+
+    <FrameLayout
+        android:id="@+id/movieDetailFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        tools:layout="@layout/fragment_moviedetails"
+        android:background="@color/colorPrimary"/>
+
+    <!--
+        <fragment
+        android:id="@+id/movieRecyclerFragment"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        class="com.mynanodegreeapps.movies.MovieFragment"
+        tools:layout="@layout/fragment_movies">
+        </fragment>
+
+        <fragment
+        android:id="@+id/movieDetailFragment"
+        android:layout_width="wrap_content"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        class="com.mynanodegreeapps.movies.MovieDetailFragment"
+        tools:layout="@layout/fragment_moviedetails">
+        </fragment>
+    -->
+</LinearLayout>

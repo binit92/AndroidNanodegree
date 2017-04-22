@@ -26,7 +26,7 @@
 
         <activity
             android:name=".movies.MovieDetailActivity"
-            android:label="@string/text_Movies_Details"/>
+            android:label="@string/text_Movies"/>
 
         <provider
             android:authorities= "com.mynanodegreeapps"

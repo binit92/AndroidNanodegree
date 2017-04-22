@@ -1,13 +1,12 @@
 package com.mynanodegreeapps.movies;
 
-import android.content.ContentValues;
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.CursorAdapter;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
  *  Created by binit92 on 1/14/2017. *
  *  notes on recyclerview: https://guides.codepath.com/android/using-the-recyclerview#create-the-recyclerview-within-layout
  */
-public class MovieFragment extends Fragment implements IMoviesConstants {
+public class MovieFragment extends Fragment implements IMoviesConstants, IImageAdapterCallback {
 
     private final String LOG_TAG = MovieFragment.class.getSimpleName();
     private final String TAG_POPULAR = "popular";
@@ -155,7 +154,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
                             }
 
                             // Set Adapter
-                            imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_NETWORK);
+                            imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_NETWORK,MovieFragment.this);
                             movieView.setAdapter(imageAdapter);
 
                         }catch (JSONException je){
@@ -206,10 +205,32 @@ public class MovieFragment extends Fragment implements IMoviesConstants {
             movieCursor.close();
         }
        // reusing the same image adapter
-        imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_DB);
+        imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_DB,this);
         movieView.setAdapter(imageAdapter);
 
     }
 
 
+    @Override
+    public void onMovieSelect(Bundle bundle) {
+
+        System.out.println("--> On Movie Select ");
+        // for tablets
+        if(getActivity().findViewById(R.id.favorite) != null){
+            System.out.println("--> tablet");
+            // Todo : How to create the first movie in the adapter selected on load.
+            // getActivity().getSupportFragmentManager().beginTransaction().add();
+            MovieDetailFragment mdf = new MovieDetailFragment();
+            mdf.setArguments(bundle);
+            getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.movieDetailFragment, mdf)
+                        .commit();
+        }else {
+            System.out.println(" --> phone ");
+            Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+            intent.putExtra("movieBundle", bundle);
+            startActivity(intent);
+        }
+    }
 }
