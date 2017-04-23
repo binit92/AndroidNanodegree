@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-
 import com.mynanodegreeapps.R;
 
 /**
@@ -22,6 +21,7 @@ public class MoviesActivity extends AppCompatActivity {
         if(findViewById(R.id.movieDetailFragment) != null){
             System.out.println("--> This is tablet ");
 
+            // Todo: Change the screen orientation
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.movieRecyclerFragment, new MovieFragment())

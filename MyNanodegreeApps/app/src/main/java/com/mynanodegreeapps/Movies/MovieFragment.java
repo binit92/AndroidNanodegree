@@ -70,7 +70,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
             //movieGrid = (GridView) rootview.findViewById(R.id.movieGrid);
             //movieGrid.setClickable(true);
             movieView = (RecyclerView) rootview.findViewById(R.id.movieGrid1);
-            movieView.setLayoutManager(new GridLayoutManager(getContext(),4));
+            movieView.setLayoutManager(new GridLayoutManager(getContext(),2));
             movieView.setClickable(true);
         }
         movieListRequestQueue =  Volley.newRequestQueue(this.getContext());
@@ -210,10 +210,8 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
 
     }
 
-
     @Override
     public void onMovieSelect(Bundle bundle) {
-
         System.out.println("--> On Movie Select ");
         // for tablets
         if(getActivity().findViewById(R.id.favorite) != null){
