@@ -87,17 +87,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     b.putString("plot",plot);
                     b.putString("id", id);
                     b.putInt("source", source);
+                    b.putInt("position",position);
 
-                    /*
-                    Intent intent = new Intent(c, MovieDetailActivity.class);
-                    intent.setType(Integer.toString(SOURCE_DB));
-                    intent.putExtra("title", title);
-                    intent.putExtra("imageBlob", imageArray);
-                    intent.putExtra("releaseDate", releaseDate);
-                    intent.putExtra("voteAvg", voteAvg);
-                    intent.putExtra("plot", plot);
-                    intent.putExtra("id", id);
-                    */
                     iImageAdapterCallback.onMovieSelect(b);
 
                 }
@@ -130,19 +121,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     b.putString("plot",plot);
                     b.putString("id", id);
                     b.putInt("source", source);
-
-
-                    /*
-                    Intent intent = new Intent(c, MovieDetailActivity.class);
-                    intent.setType(Integer.toString(SOURCE_NETWORK));
-                    intent.putExtra("title", title);
-                    intent.putExtra("url", url);
-                    intent.putExtra("releaseDate", releaseDate);
-                    intent.putExtra("voteAvg", voteAvg);
-                    intent.putExtra("plot", plot);
-                    intent.putExtra("id", id);
-                    */
-
+                    b.putInt("position",position);
 
                     iImageAdapterCallback.onMovieSelect(b);
 

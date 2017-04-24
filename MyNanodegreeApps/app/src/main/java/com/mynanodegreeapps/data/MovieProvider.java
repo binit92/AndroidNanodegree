@@ -93,8 +93,6 @@ public class MovieProvider extends ContentProvider {
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
 
-        System.out.println("--> authority is "+ authority);
-
         // 2) Use the addURI function to match each of the types.  Use the constants from
         uriMatcher.addURI(authority, MovieContract.PATH_MOVIE, MOVIE);
         uriMatcher.addURI(authority, MovieContract.PATH_MOVIE+"/*", MOVIE_WITH_POSTERPATH);
@@ -149,7 +147,7 @@ public class MovieProvider extends ContentProvider {
                 retCursor = db.query(MovieEntry.TABLE_NAME,
                                 projection,
                                 selection,
-                                null,
+                                selectionArgs,
                                 null,
                                 null,
                                 sortOrder);
@@ -184,7 +182,6 @@ public class MovieProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        System.out.println("--> insert uri is + "+ uri);
         final int match = mUriMatcher.match(uri);
         Uri returnUri;
 

@@ -19,8 +19,6 @@ public class MoviesActivity extends AppCompatActivity {
 
         // Find if twoPane Layout for tablets
         if(findViewById(R.id.movieDetailFragment) != null){
-            System.out.println("--> This is tablet ");
-
             // Todo: Change the screen orientation
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
@@ -29,7 +27,6 @@ public class MoviesActivity extends AppCompatActivity {
                         .commit();
             }
         }else{
-            System.out.println("--> This is phone ");
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.popularmoviecontainer, new MovieFragment())

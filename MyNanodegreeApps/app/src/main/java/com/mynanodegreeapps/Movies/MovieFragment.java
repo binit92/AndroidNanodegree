@@ -1,12 +1,16 @@
 package com.mynanodegreeapps.movies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +47,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     private final String TAG_POPULAR = "popular";
     private final String TAG_TOPRATED = "top_rated";
     private final String TAG_FAVORITE = "favorite";
-
     private String CURRENT_TAG = TAG_POPULAR;
 
     ImageAdapter imageAdapter;
@@ -55,6 +59,12 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     public MovieFragment(){}
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_movies, menu);
     }
@@ -64,7 +74,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootview = inflater.inflate(R.layout.fragment_movies,container,false);
-        setHasOptionsMenu(true);
 
         if(rootview!= null) {
             //movieGrid = (GridView) rootview.findViewById(R.id.movieGrid);
@@ -74,6 +83,11 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
             movieView.setClickable(true);
         }
         movieListRequestQueue =  Volley.newRequestQueue(this.getContext());
+
+        if (savedInstanceState != null ) {
+            CURRENT_TAG =  savedInstanceState.getString(getString(R.string.moviemenu));
+        }
+
         return rootview;
     }
 
@@ -81,17 +95,17 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_popular:
-                 CURRENT_TAG= TAG_POPULAR;
+                 CURRENT_TAG = TAG_POPULAR;
                  updateMoviesList(TAG_POPULAR);
                  break;
 
             case R.id.action_toprated:
-                 CURRENT_TAG=TAG_TOPRATED;
+                 CURRENT_TAG = TAG_TOPRATED;
                  updateMoviesList(TAG_TOPRATED);
                  break;
 
             case R.id.action_favorite:
-                 CURRENT_TAG=TAG_FAVORITE;
+                CURRENT_TAG = TAG_FAVORITE;
                  fetchFromDb();
                  break;
             default:
@@ -104,18 +118,25 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     @Override
     public void onStart() {
         super.onStart();
-        updateMoviesList(CURRENT_TAG);
+        updateMovies(CURRENT_TAG);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        updateMoviesList(CURRENT_TAG);
+    public void onSaveInstanceState(Bundle outState) {
+        // When tablets rotate, the currently selected list item needs to be saved.
+        // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
+        // so check for that before storing.
+
+        outState.putString(getString(R.string.moviemenu),CURRENT_TAG);
+        super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    private void updateMovies(String tag_movie){
+        if(CURRENT_TAG == TAG_FAVORITE){
+            fetchFromDb();
+        }else{
+            updateMoviesList(tag_movie);
+        }
     }
 
     private void updateMoviesList(String tag_movie){
@@ -212,12 +233,9 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
 
     @Override
     public void onMovieSelect(Bundle bundle) {
-        System.out.println("--> On Movie Select ");
         // for tablets
         if(getActivity().findViewById(R.id.favorite) != null){
-            System.out.println("--> tablet");
-            // Todo : How to create the first movie in the adapter selected on load.
-            // getActivity().getSupportFragmentManager().beginTransaction().add();
+
             MovieDetailFragment mdf = new MovieDetailFragment();
             mdf.setArguments(bundle);
             getActivity().getSupportFragmentManager()
@@ -225,10 +243,11 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
                         .replace(R.id.movieDetailFragment, mdf)
                         .commit();
         }else {
-            System.out.println(" --> phone ");
+
             Intent intent = new Intent(getContext(), MovieDetailActivity.class);
             intent.putExtra("movieBundle", bundle);
             startActivity(intent);
         }
     }
+
 }

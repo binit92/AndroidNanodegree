@@ -23,4 +23,7 @@
     <string name="releaseDate">Release Date</string>
     <string name="voteAvg"> Average Vote</string>
 
+    <!-- menu -->
+    <string name="moviemenu">MOVIE_MENU</string>
+    <string name="preference_file_key">nanodegree_prefs</string>
 </resources>

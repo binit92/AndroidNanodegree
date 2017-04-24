@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -123,26 +124,44 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                     getMovieReviewList(id);
                 }
             }
+            if(checkIfMovieExists()){
+                favorite.setPressed(true);
+            }
         }
         return rootView;
 
     }
     @OnClick(R.id.favorite)
-    void onClick(){
+    void onClick() {
         // Add everything to database
         ContentValues movieContent = new ContentValues();
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID,id);
+        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, id);
         movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_NAME, title);
         movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, imageBlob);
         movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_RELEASEDATE, release_date);
         movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, plot);
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTEAVERAGE,vote);
+        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTEAVERAGE, vote);
 
-        Uri insertedUri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI,movieContent);
+        if (!checkIfMovieExists()) {
+            Uri insertedUri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, movieContent);
+            // The inserted URI contains the id for the row.
+            // Extract the movie ID from the Uri
+            // long insertedid = ContentUris.parseId(insertedUri);
+            favorite.setPressed(true);
+        }
+    }
 
-        // The inserted URI contains the id for the row.
-        // Extract the movie ID from the Uri
-        long insertedid = ContentUris.parseId(insertedUri);
+    boolean checkIfMovieExists(){
+        Cursor checkMovie = getContext().getContentResolver()
+                .query(MovieContract.MovieEntry.CONTENT_URI
+                        , new String[]{MovieContract.MovieEntry.COLUMN_MOVIE_ID}
+                        , MovieContract.MovieEntry.COLUMN_MOVIE_ID+ "=?"
+                        , new String[]{id}
+                        , null);
+        if(checkMovie.moveToFirst()){
+            return true;
+        }
+        return false;
     }
 
     void getMovieTrailerList(String id){
@@ -240,8 +259,6 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                                 MovieReview movieReview = new MovieReview(reviewAuthor,reviewContent);
                                 movieReviews.add(movieReview);
                             }
-
-                            System.out.println("--> movieReview.size() is " + movieReviews.size());
 
                             LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.reviewLayout);
                             LayoutInflater inflater = LayoutInflater.from(getContext());
