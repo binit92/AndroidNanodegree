@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -52,6 +53,9 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     ImageAdapter imageAdapter;
     View rootview;
     RecyclerView movieView;
+
+    Bundle mMovieViewState;
+    private final String KEY_MOVIEVIEW_STATE = "movieview_state";
 
     StringRequest movieListRequest;
     RequestQueue movieListRequestQueue ;
@@ -119,6 +123,25 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     public void onStart() {
         super.onStart();
         updateMovies(CURRENT_TAG);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // restore movieView State
+        if(mMovieViewState != null){
+            Parcelable listState = mMovieViewState.getParcelable(KEY_MOVIEVIEW_STATE);
+            movieView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // save RecyclerView state
+        mMovieViewState = new Bundle();
+        Parcelable listState = movieView.getLayoutManager().onSaveInstanceState();
+        mMovieViewState.putParcelable(KEY_MOVIEVIEW_STATE, listState);
     }
 
     @Override

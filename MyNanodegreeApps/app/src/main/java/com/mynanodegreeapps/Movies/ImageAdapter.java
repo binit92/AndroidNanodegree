@@ -87,7 +87,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     b.putString("plot",plot);
                     b.putString("id", id);
                     b.putInt("source", source);
-                    b.putInt("position",position);
 
                     iImageAdapterCallback.onMovieSelect(b);
 
@@ -121,7 +120,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
                     b.putString("plot",plot);
                     b.putString("id", id);
                     b.putInt("source", source);
-                    b.putInt("position",position);
 
                     iImageAdapterCallback.onMovieSelect(b);
 
@@ -135,8 +133,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     public int getItemCount() {
         return movieList.size();
     }
-
-
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
