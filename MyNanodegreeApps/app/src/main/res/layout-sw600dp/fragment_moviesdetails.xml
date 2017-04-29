@@ -65,14 +65,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/movie_vote_textsize"/>
 
-                <!--
-                <ImageView
-                    android:id="@+id/favorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:src="@android:drawable/btn_star"/>
-                -->
+
                 <com.github.ivbaranov.mfb.MaterialFavoriteButton
                     android:id="@+id/favorite"
                     android:layout_width="wrap_content"

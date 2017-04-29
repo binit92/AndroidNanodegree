@@ -219,9 +219,38 @@ public class MovieProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        //todo : skipping this for now
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = mUriMatcher.match(uri);
+        int rowDeleted = 0;
+
+        if(selection == null) selection = "1";
+        switch (match){
+            case MOVIE: {
+                rowDeleted = db.delete(MovieContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
+            case TRAILERS: {
+                rowDeleted = db.delete(TrailerEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
+            case REVIEWS:{
+                rowDeleted = db.delete(ReviewEntry.TABLE_NAME,selection,selectionArgs);
+                break;
+            }
+            default:
+                throw new UnsupportedOperationException("unknown uri"+ uri);
+        }
+
+        // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
+        // is null.
+        // Oh, and you should notify the listeners here.
+        if(rowDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+
+        return rowDeleted;
     }
 
     @Override

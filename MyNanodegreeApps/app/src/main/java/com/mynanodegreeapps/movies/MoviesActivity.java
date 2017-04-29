@@ -19,8 +19,6 @@ public class MoviesActivity extends AppCompatActivity {
         // Find if twoPane Layout for tablets
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
-            // Todo: Change the screen orientation
-            System.out.println("--> is Tablet ! ");
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.movieRecyclerFragment, new MovieFragment())
@@ -28,7 +26,6 @@ public class MoviesActivity extends AppCompatActivity {
                         .commit();
             }
         }else{
-            System.out.println(" --> is not a Tablet ");
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.popularmoviecontainer, new MovieFragment())

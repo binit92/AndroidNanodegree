@@ -152,13 +152,12 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                                     // Extract the movie ID from the Uri
                                     // long insertedid = ContentUris.parseId(insertedUri);
                                     buttonView.setAnimateFavorite(true);
-
-
+                                    // Todo : Add Trailers and Reviews too!
                                 }
                             }else{
-                                // Todo: Delete from DB
+                                getContext().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI, MovieContract.MovieEntry.COLUMN_MOVIE_ID+ "=?"
+                                        , new String[]{id});
                             }
-
                         }
                     });
         }
