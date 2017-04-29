@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.mynanodegreeapps.BuildConfig;
 import com.mynanodegreeapps.R;
 import com.mynanodegreeapps.data.MovieContract;
@@ -44,6 +45,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
+import butterknife.OnTouch;
 
 public class MovieDetailFragment extends Fragment implements IMoviesConstants,Target {
 
@@ -52,7 +55,7 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
     ImageView moviePoster;
 
     @Bind(R.id.favorite)
-    ImageView favorite;
+    MaterialFavoriteButton favorite;
 
     @Bind(R.id.movie_Title)
     TextView movieTitle;
@@ -117,38 +120,50 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                 } else {
                     url = extras.getString("url");
                     Log.d("url", url);
-                    Picasso.with(getContext()).load(url).resize(600, 800).into(this);
+                    Picasso.with(getContext()).load(url).into(this);
 
                     moviesDetailsRequestQueue = Volley.newRequestQueue(getContext());
                     getMovieTrailerList(id);
                     getMovieReviewList(id);
                 }
             }
-            if(checkIfMovieExists()){
-                favorite.setPressed(true);
+
+            if(id !=null && checkIfMovieExists()){
+                favorite.setFavorite(true);
             }
+
+            favorite.setOnFavoriteChangeListener(
+                    new MaterialFavoriteButton.OnFavoriteChangeListener() {
+                        @Override
+                        public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
+                            if(favorite){
+                                // Add everything to database
+                                ContentValues movieContent = new ContentValues();
+                                movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, id);
+                                movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_NAME, title);
+                                movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, imageBlob);
+                                movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_RELEASEDATE, release_date);
+                                movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, plot);
+                                movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTEAVERAGE, vote);
+
+                                if (!checkIfMovieExists() ) {
+                                    Uri insertedUri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, movieContent);
+                                    // The inserted URI contains the id for the row.
+                                    // Extract the movie ID from the Uri
+                                    // long insertedid = ContentUris.parseId(insertedUri);
+                                    buttonView.setAnimateFavorite(true);
+
+
+                                }
+                            }else{
+                                // Todo: Delete from DB
+                            }
+
+                        }
+                    });
         }
         return rootView;
 
-    }
-    @OnClick(R.id.favorite)
-    void onClick() {
-        // Add everything to database
-        ContentValues movieContent = new ContentValues();
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, id);
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_NAME, title);
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_POSTER, imageBlob);
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_RELEASEDATE, release_date);
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, plot);
-        movieContent.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTEAVERAGE, vote);
-
-        if (!checkIfMovieExists()) {
-            Uri insertedUri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, movieContent);
-            // The inserted URI contains the id for the row.
-            // Extract the movie ID from the Uri
-            // long insertedid = ContentUris.parseId(insertedUri);
-            favorite.setPressed(true);
-        }
     }
 
     boolean checkIfMovieExists(){
@@ -193,11 +208,10 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                             }
 
                             LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.trailerLayout);
-                            LayoutInflater inflater = LayoutInflater.from(getContext());
+                            LayoutInflater inflater = LayoutInflater.from(getActivity().getApplicationContext());
                             for(MovieTrailer obj : movieTrailers){
                                 View view = inflater.inflate(R.layout.custom_movietrailer,linearLayout,false);
                                 TextView trailerName = (TextView)view.findViewById(R.id.trailer_name);
-
                                 final String key = obj.key;
                                 trailerName.setText(obj.name);
                                 trailerName.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +220,10 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                                         String url = YOUTUBE_URL+key;
                                         Intent i = new Intent(Intent.ACTION_VIEW);
                                         i.setData(Uri.parse(url));
-                                        startActivity(i);
+                                        if(i.resolveActivity(getActivity().getPackageManager())!= null){
+                                            startActivity(i);
+                                        }
+
                                     }
                                 });
 
@@ -245,7 +262,6 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                     @Override
                     public void onResponse(String response) {
 
-
                         try {
                             JSONObject movieVideoJSON = new JSONObject(response);
                             JSONArray movieArray = movieVideoJSON.getJSONArray(MDB_RESULTS);
@@ -273,12 +289,11 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                                 linearLayout.addView(view);
                             }
 
-
                         /*
                         MovieReviewAdapter movieReviewAdapter = new MovieReviewAdapter(getApplicationContext(),movieReviews);
                         movieReviewList.setAdapter(movieReviewAdapter);
                         */
-                            //justifyListViewHeightBasedOnChildren(movieReviewList);
+                        //justifyListViewHeightBasedOnChildren(movieReviewList);
 
                         }catch (JSONException je){
                             je.printStackTrace();
@@ -302,11 +317,12 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
 
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        moviePoster.setImageBitmap(bitmap);
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         imageBlob= byteArray;
+        moviePoster.setImageBitmap(bitmap);
     }
 
     @Override

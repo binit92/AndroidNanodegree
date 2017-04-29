@@ -1,17 +1,12 @@
 package com.mynanodegreeapps.movies;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 /**
@@ -63,12 +57,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     public MovieFragment(){}
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_movies, menu);
     }
@@ -76,12 +64,9 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         rootview = inflater.inflate(R.layout.fragment_movies,container,false);
-
         if(rootview!= null) {
-            //movieGrid = (GridView) rootview.findViewById(R.id.movieGrid);
-            //movieGrid.setClickable(true);
             movieView = (RecyclerView) rootview.findViewById(R.id.movieGrid1);
             movieView.setLayoutManager(new GridLayoutManager(getContext(),2));
             movieView.setClickable(true);
@@ -163,7 +148,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     }
 
     private void updateMoviesList(String tag_movie){
-
         // clear the arraylist for now
         Uri requestUri = Uri.parse(MOVIEDB_BASE_URL+tag_movie).buildUpon()
                 .appendQueryParameter(API_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
@@ -196,7 +180,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
                                 movieArrayList.add(tmdbMovie);
 
                             }
-
                             // Set Adapter
                             imageAdapter = new ImageAdapter(getContext(),movieArrayList,ImageAdapter.SOURCE_NETWORK,MovieFragment.this);
                             movieView.setAdapter(imageAdapter);
@@ -256,6 +239,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
 
     @Override
     public void onMovieSelect(Bundle bundle) {
+
         // for tablets
         if(getActivity().findViewById(R.id.favorite) != null){
 
@@ -266,7 +250,6 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
                         .replace(R.id.movieDetailFragment, mdf)
                         .commit();
         }else {
-
             Intent intent = new Intent(getContext(), MovieDetailActivity.class);
             intent.putExtra("movieBundle", bundle);
             startActivity(intent);

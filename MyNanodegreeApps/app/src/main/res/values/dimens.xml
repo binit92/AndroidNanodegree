@@ -3,4 +3,12 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+
+    <!-- Movie Details -->
+    <dimen name="movie_title_textsize">36sp</dimen>
+    <dimen name="movie_title_padding">8dp</dimen>
+    <dimen name="movie_image_padding">4dp</dimen>
+    <dimen name="movie_releasedate_textsize">24sp</dimen>
+    <dimen name="movie_vote_textsize">20sp</dimen>
 </resources>

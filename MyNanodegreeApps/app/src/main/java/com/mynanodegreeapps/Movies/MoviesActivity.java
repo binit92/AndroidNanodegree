@@ -11,15 +11,16 @@ import com.mynanodegreeapps.R;
  */
 public class MoviesActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
 
         // Find if twoPane Layout for tablets
-        if(findViewById(R.id.movieDetailFragment) != null){
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        if(isTablet){
             // Todo: Change the screen orientation
+            System.out.println("--> is Tablet ! ");
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.movieRecyclerFragment, new MovieFragment())
@@ -27,6 +28,7 @@ public class MoviesActivity extends AppCompatActivity {
                         .commit();
             }
         }else{
+            System.out.println(" --> is not a Tablet ");
             if(savedInstanceState == null){
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.popularmoviecontainer, new MovieFragment())

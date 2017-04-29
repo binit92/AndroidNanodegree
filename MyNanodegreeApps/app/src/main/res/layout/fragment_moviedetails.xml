@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground">
 
     <LinearLayout
@@ -18,9 +18,9 @@
             android:id="@+id/movie_Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="36sp"
+            android:textSize="@dimen/movie_title_textsize"
             android:textColor="@android:color/white"
-            android:padding="8dp"
+            android:padding="@dimen/movie_title_padding"
             android:background="@android:color/holo_green_dark"/>
 
         <LinearLayout
@@ -33,7 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:padding="4dp"/>
+                android:padding="@dimen/movie_image_padding"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -47,20 +47,36 @@
                     android:id="@+id/movie_ReleaseDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"/>
+                    android:textSize="@dimen/movie_releasedate_textsize"/>
 
                 <TextView
                     android:id="@+id/movie_Votes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/movie_vote_textsize"/>
 
+                <!--
                 <ImageView
                     android:id="@+id/favorite"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:clickable="true"
                     android:src="@android:drawable/btn_star"/>
+                -->
+
+                <com.github.ivbaranov.mfb.MaterialFavoriteButton
+                    android:id="@+id/favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:mfb_animate_favorite="true"
+                    app:mfb_animate_unfavorite="false"
+                    app:mfb_padding="12"
+                    app:mfb_rotation_duration="400"
+                    app:mfb_rotation_angle="360"
+                    app:mfb_bounce_duration="300"
+                    app:mfb_color="black"
+                    app:mfb_type="star"
+                    app:mfb_size="48"/>
 
             </LinearLayout>
 

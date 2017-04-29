@@ -34,5 +34,6 @@ dependencies {
     compile 'com.android.support:design:24.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
 
 }

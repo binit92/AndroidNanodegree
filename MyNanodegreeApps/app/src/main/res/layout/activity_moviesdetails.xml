@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:id="@+id/moviedetailcontainer"
-    android:background="#C5CAE9"
+    android:background="@color/movieDetailContainerColor"
     tools:context=".movies.MovieDetailActivity"
     tools:ignore="MergeRootFrame">>
 
