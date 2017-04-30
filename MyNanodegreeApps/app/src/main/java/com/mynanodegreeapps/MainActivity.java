@@ -52,17 +52,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-    public void stockHawk(View view){
-        showToast(messageHeader+getString(R.string.text_Stock_Hawk));
+    public void bakingApp(View view){
+        showToast(messageHeader+getString(R.string.text_Baking_App));
     }
     public void buildItBigger(View view){
         showToast(messageHeader+getString(R.string.text_Build_IT_Bigger));
     }
     public void makeYourAppMaterial(View view){
         showToast(messageHeader+getString(R.string.text_Make_Your_APP_Material));
-    }
-    public void goUbiquotous(View view){
-        showToast(messageHeader+getString(R.string.text_Go_Ubiquotous));
     }
     public void capstoneMyOwnProject(View view){
         showToast(messageHeader+getString(R.string.text_Capstone_My_Own_Project));

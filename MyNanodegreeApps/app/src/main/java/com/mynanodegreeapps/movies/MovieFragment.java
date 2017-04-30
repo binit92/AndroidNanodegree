@@ -24,7 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mynanodegreeapps.BuildConfig;
 import com.mynanodegreeapps.R;
-import com.mynanodegreeapps.data.MovieContract;
+import com.mynanodegreeapps.movies.data.MovieContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;

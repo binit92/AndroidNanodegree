@@ -1,7 +1,6 @@
 
-package com.mynanodegreeapps.data;
+package com.mynanodegreeapps.movies.data;
 
-import android.net.Uri;
 import android.test.AndroidTestCase;
 
 

@@ -1,0 +1,14 @@
+
+
+ This notes is for Revision
+
+
+  RecyclerView:
+	1. 
+
+  Libraries:
+	1. Bind
+	2. Volley
+	3. Picasso
+	4. MaterialFavoriteButton
+	5. Schematice

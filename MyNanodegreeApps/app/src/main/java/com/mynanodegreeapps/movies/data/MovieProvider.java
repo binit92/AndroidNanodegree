@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.data;
+package com.mynanodegreeapps.movies.data;
 
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
@@ -10,9 +10,9 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.mynanodegreeapps.data.MovieContract.MovieEntry;
-import com.mynanodegreeapps.data.MovieContract.TrailerEntry;
-import com.mynanodegreeapps.data.MovieContract.ReviewEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.MovieEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.TrailerEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.ReviewEntry;
 
 public class MovieProvider extends ContentProvider {
 

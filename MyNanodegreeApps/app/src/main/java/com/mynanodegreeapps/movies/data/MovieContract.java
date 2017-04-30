@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.data;
+package com.mynanodegreeapps.movies.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

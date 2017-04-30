@@ -1,12 +1,12 @@
-package com.mynanodegreeapps.data;
+package com.mynanodegreeapps.movies.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.mynanodegreeapps.data.MovieContract.MovieEntry;
-import com.mynanodegreeapps.data.MovieContract.TrailerEntry;
-import com.mynanodegreeapps.data.MovieContract.ReviewEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.MovieEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.TrailerEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.ReviewEntry;
 
 public class MovieDBHelper extends SQLiteOpenHelper {
 

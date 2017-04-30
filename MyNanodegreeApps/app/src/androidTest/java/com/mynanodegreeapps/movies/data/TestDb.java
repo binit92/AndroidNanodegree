@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.data;
+package com.mynanodegreeapps.movies.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,9 +7,9 @@ import android.test.AndroidTestCase;
 
 import java.util.HashSet;
 
-import com.mynanodegreeapps.data.MovieContract.MovieEntry;
-import com.mynanodegreeapps.data.MovieContract.TrailerEntry;
-import com.mynanodegreeapps.data.MovieContract.ReviewEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.MovieEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.TrailerEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.ReviewEntry;
 
 public class TestDb extends AndroidTestCase {
 

@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.data;
+package com.mynanodegreeapps.movies.data;
 
 
 import android.content.ContentValues;
@@ -16,9 +16,9 @@ import java.util.Set;
 
 import com.mynanodegreeapps.utils.PollingCheck;
 
-import com.mynanodegreeapps.data.MovieContract.MovieEntry;
-import com.mynanodegreeapps.data.MovieContract.TrailerEntry;
-import com.mynanodegreeapps.data.MovieContract.ReviewEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.MovieEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.TrailerEntry;
+import com.mynanodegreeapps.movies.data.MovieContract.ReviewEntry;
 
 /*
     Students: These are functions and some test data to make it easier to test your database and

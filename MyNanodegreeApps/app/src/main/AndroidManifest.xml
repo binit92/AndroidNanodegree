@@ -30,7 +30,7 @@
 
         <provider
             android:authorities= "com.mynanodegreeapps"
-            android:name=".data.MovieProvider"
+            android:name=".movies.data.MovieProvider"
             android:exported="false"/>
 
     </application>

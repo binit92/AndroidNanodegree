@@ -1,10 +1,8 @@
 package com.mynanodegreeapps.movies;
 
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.mynanodegreeapps.BuildConfig;
 import com.mynanodegreeapps.R;
-import com.mynanodegreeapps.data.MovieContract;
+import com.mynanodegreeapps.movies.data.MovieContract;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -44,9 +41,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnItemClick;
-import butterknife.OnTouch;
 
 public class MovieDetailFragment extends Fragment implements IMoviesConstants,Target {
 
