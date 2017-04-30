@@ -85,7 +85,7 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_moviedetails,container,false);
+        rootView = inflater.inflate(R.layout.moviedetails_fragment,container,false);
 
         if(rootView != null) {
 
@@ -203,7 +203,7 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                             LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.trailerLayout);
                             LayoutInflater inflater = LayoutInflater.from(getActivity().getApplicationContext());
                             for(MovieTrailer obj : movieTrailers){
-                                View view = inflater.inflate(R.layout.custom_movietrailer,linearLayout,false);
+                                View view = inflater.inflate(R.layout.movietrailer_custom,linearLayout,false);
                                 TextView trailerName = (TextView)view.findViewById(R.id.trailer_name);
                                 final String key = obj.key;
                                 trailerName.setText(obj.name);
@@ -272,7 +272,7 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
                             LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.reviewLayout);
                             LayoutInflater inflater = LayoutInflater.from(getContext());
                             for(MovieReview obj : movieReviews){
-                                View view = inflater.inflate(R.layout.custom_moviereviews,linearLayout,false);
+                                View view = inflater.inflate(R.layout.moviereview_custom,linearLayout,false);
                                 TextView reviewAuthor = (TextView)view.findViewById(R.id.review_author);
                                 TextView reviewContent = (TextView)view.findViewById(R.id.review_content);
 

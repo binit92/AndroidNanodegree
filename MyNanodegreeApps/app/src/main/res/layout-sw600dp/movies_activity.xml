@@ -12,13 +12,13 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
-        tools:layout="@layout/fragment_movies"/>
+        tools:layout="@layout/movies_fragment"/>
 
     <FrameLayout
         android:id="@+id/movieDetailFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        tools:layout="@layout/fragment_moviedetails"/>
+        tools:layout="@layout/moviedetails_fragment"/>
 
 </LinearLayout>

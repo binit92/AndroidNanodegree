@@ -14,7 +14,7 @@ public class MoviesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+        setContentView(R.layout.movies_activity);
 
         // Find if twoPane Layout for tablets
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);

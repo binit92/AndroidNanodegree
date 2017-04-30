@@ -65,7 +65,7 @@ public class MovieFragment extends Fragment implements IMoviesConstants, IImageA
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        rootview = inflater.inflate(R.layout.fragment_movies,container,false);
+        rootview = inflater.inflate(R.layout.movies_fragment,container,false);
         if(rootview!= null) {
             movieView = (RecyclerView) rootview.findViewById(R.id.movieGrid1);
             movieView.setLayoutManager(new GridLayoutManager(getContext(),2));

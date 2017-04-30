@@ -1,7 +1,6 @@
 package com.mynanodegreeapps.movies;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -48,7 +47,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View moviePosterView = inflater.inflate(R.layout.custom_movieposter,parent,false);
+        View moviePosterView = inflater.inflate(R.layout.movieposter_custom,parent,false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(moviePosterView);
