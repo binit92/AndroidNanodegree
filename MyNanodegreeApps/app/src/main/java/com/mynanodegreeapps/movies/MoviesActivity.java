@@ -16,7 +16,6 @@ public class MoviesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movies_activity);
 
-        // Find if twoPane Layout for tablets
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
         if(isTablet){
             if(savedInstanceState == null){

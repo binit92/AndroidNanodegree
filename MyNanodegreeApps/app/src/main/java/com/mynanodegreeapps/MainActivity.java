@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.mynanodegreeapps.bakingapp.BakingActivity;
+import com.mynanodegreeapps.movies.MovieDetailFragment;
+import com.mynanodegreeapps.movies.MovieFragment;
 import com.mynanodegreeapps.movies.MoviesActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,13 +50,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void popularMovies(View view){
-        //showToast(messageHeader+getString(R.string.text_Popular_Movies));
         Intent intent = new Intent(getApplicationContext(),MoviesActivity.class);
         startActivity(intent);
-
     }
     public void bakingApp(View view){
-        showToast(messageHeader+getString(R.string.text_Baking_App));
+        Intent intent = new Intent (getApplicationContext(), BakingActivity.class);
+        startActivity(intent);
     }
     public void buildItBigger(View view){
         showToast(messageHeader+getString(R.string.text_Build_IT_Bigger));
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
     }
+
+
 
 
 }

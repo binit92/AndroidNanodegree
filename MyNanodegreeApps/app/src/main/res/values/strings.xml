@@ -26,4 +26,9 @@
     <!-- menu -->
     <string name="moviemenu">MOVIE_MENU</string>
     <string name="preference_file_key">nanodegree_prefs</string>
+
+    <!-- Baking -->
+    <string name="text_baking">Baking</string>
+    <string name="text_baking_detail">Baking Detail</string>
+
 </resources>

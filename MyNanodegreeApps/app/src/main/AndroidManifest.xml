@@ -33,6 +33,14 @@
             android:name=".movies.data.MovieProvider"
             android:exported="false"/>
 
+        <activity
+            android:name=".bakingapp.BakingActivity"
+            android:label ="@string/text_baking" />
+
+        <activity
+            android:name=".bakingapp.BakingDetailActivity"
+            android:label="@string/text_baking_detail"/>
+
     </application>
 
 </manifest>
