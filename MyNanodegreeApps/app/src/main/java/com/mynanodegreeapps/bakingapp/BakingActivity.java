@@ -27,8 +27,12 @@ import java.util.List;
 
 public class BakingActivity extends AppCompatActivity{
 
-    //Todo: Use newurl
-    private static final String SERVER_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58d1537b_baking/baking.json";
+    // Todo : Use url : https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json
+    // Todo : Use card and material design to enable us to click on whole card instead of just text.
+    // Todo : haven't used butterknife and other libraries
+
+    // private static final String SERVER_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58d1537b_baking/baking.json";
+    private static final String SERVER_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private String LOG_TAG = BakingActivity.class.getSimpleName();
 
     JsonArrayRequest recipeListRequest;
@@ -45,6 +49,7 @@ public class BakingActivity extends AppCompatActivity{
         recipeGrid = (RecyclerView) findViewById(R.id.recipeGrid);
         recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(),1));
         recipeGrid.setClickable(true);
+        //recipeGrid.setAdapter(recipeImageAdapter);
 
         /* Todo:
                 1. Get the recipe
@@ -87,7 +92,7 @@ public class BakingActivity extends AppCompatActivity{
 
                                 List<Step> stepList = new ArrayList<>();
                                 for(int k=0; k<steps.length();k++){
-                                    JSONObject stepsObject = steps.getJSONObject(i);
+                                    JSONObject stepsObject = steps.getJSONObject(k);
                                     int stepId= stepsObject.getInt("id");
                                     String shortDesc = stepsObject.getString("shortDescription");
                                     String desc = stepsObject.getString("description");
@@ -98,7 +103,7 @@ public class BakingActivity extends AppCompatActivity{
                                 }
 
                                 recipes.add(new Recipe(recipeid,name,ingredientList,stepList,servings,image));
-                            }
+                           }
                         }catch (JSONException je){
                             je.printStackTrace();
                         }

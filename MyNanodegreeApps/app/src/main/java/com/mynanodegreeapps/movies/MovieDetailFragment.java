@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.mynanodegreeapps.BuildConfig;
 import com.mynanodegreeapps.R;
+import com.mynanodegreeapps.bakingapp.util.IRecipeStepCallback;
 import com.mynanodegreeapps.movies.data.MovieContract;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -327,6 +328,7 @@ public class MovieDetailFragment extends Fragment implements IMoviesConstants,Ta
     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
     }
+
 
     public class MovieTrailer{
         public String name;

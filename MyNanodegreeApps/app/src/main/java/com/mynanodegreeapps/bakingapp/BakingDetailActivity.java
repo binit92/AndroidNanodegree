@@ -40,7 +40,6 @@ public class BakingDetailActivity extends AppCompatActivity {
             if (isTablet) {
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.recipeDetailsRecyclerFragment, bRDF)
-                        .add(R.id.recipeStepsDetailFragment, bRDF)
                         .commit();
             } else {
                 getSupportFragmentManager().beginTransaction()
@@ -48,6 +47,5 @@ public class BakingDetailActivity extends AppCompatActivity {
                         .commit();
             }
         }
-
     }
 }

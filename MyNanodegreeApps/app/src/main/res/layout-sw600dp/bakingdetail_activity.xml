@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:baselineAligned="false">
 
-
     <FrameLayout
         android:id="@+id/recipeDetailsRecyclerFragment"
         android:layout_width="0dp"
