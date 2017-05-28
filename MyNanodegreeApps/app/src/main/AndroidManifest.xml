@@ -3,6 +3,7 @@
     package="com.mynanodegreeapps">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,28 +20,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".movies.MoviesActivity"
-            android:label="@string/text_Movies"/>
-
+            android:label="@string/text_Movies" />
         <activity
             android:name=".movies.MovieDetailActivity"
-            android:label="@string/text_Movies"/>
+            android:label="@string/text_Movies" />
 
         <provider
-            android:authorities= "com.mynanodegreeapps"
             android:name=".movies.data.MovieProvider"
-            android:exported="false"/>
+            android:authorities="com.mynanodegreeapps"
+            android:exported="false" />
 
         <activity
             android:name=".bakingapp.BakingActivity"
-            android:label ="@string/text_baking" />
-
+            android:label="@string/text_baking" />
         <activity
             android:name=".bakingapp.BakingDetailActivity"
-            android:label="@string/text_baking_detail"/>
+            android:label="@string/text_baking_detail" />
 
+        <receiver android:name=".bakingapp.widget.BakingAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_provide_info" />
+        </receiver>
     </application>
 
 </manifest>

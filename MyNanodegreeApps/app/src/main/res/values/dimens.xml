@@ -11,4 +11,10 @@
     <dimen name="movie_image_padding">4dp</dimen>
     <dimen name="movie_releasedate_textsize">24sp</dimen>
     <dimen name="movie_vote_textsize">20sp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

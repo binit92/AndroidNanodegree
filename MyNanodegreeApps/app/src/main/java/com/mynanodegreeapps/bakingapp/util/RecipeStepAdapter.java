@@ -46,7 +46,6 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.Vi
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("--> text clicked is "+recipeStep.getShortDesc());
                 recipeStepCallback.onRecipeStepSelect(position);
             }
         });

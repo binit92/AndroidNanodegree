@@ -47,14 +47,14 @@ public class BakingActivity extends AppCompatActivity{
         setContentView(R.layout.baking_activity);
 
         recipeGrid = (RecyclerView) findViewById(R.id.recipeGrid);
-        recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(),1));
-        recipeGrid.setClickable(true);
-        //recipeGrid.setAdapter(recipeImageAdapter);
 
-        /* Todo:
-                1. Get the recipe
-                2. Send it to BakingDetailActivity when clicked on Image Adapter
-         */
+        if(getResources().getBoolean(R.bool.isTablet)){
+            recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
+        }else{
+            recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(),1));
+        }
+
+        recipeGrid.setClickable(true);
         recipeListRequestQueue =  Volley.newRequestQueue(getApplicationContext());
         getRecipes();
     }

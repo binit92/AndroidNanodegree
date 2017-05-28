@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.mynanodegreeapps.bakingapp.util.RecipeStepAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.v7.recyclerview.R.attr.layoutManager;
 
 /* This RecipeDetailFragment is responsible to show the Steps*/
 
@@ -40,7 +43,7 @@ public class BakingRecipeDetailFragment extends Fragment implements IRecipeStepC
         steps = bundle.getParcelableArrayList("steps");
 
         // add recipeSteps for adapter
-        recipeSteps.add(new RecipeStep(0,"ingredients"));
+        recipeSteps.add(new RecipeStep(0,"Ingredients"));
         for(Step step : steps){
              recipeSteps.add(new RecipeStep(step.getStepId(), step.getShortDescription()));
         }
@@ -50,6 +53,9 @@ public class BakingRecipeDetailFragment extends Fragment implements IRecipeStepC
             recipeStepsView = (RecyclerView) rootview.findViewById(R.id.recipeSteps);
             recipeStepsView.setLayoutManager(new LinearLayoutManager(getContext()));
             recipeStepsView.setClickable(true);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recipeStepsView.getContext(),
+                        DividerItemDecoration.VERTICAL);
+            recipeStepsView.addItemDecoration(dividerItemDecoration);
 
             RecipeStepAdapter recipeStepAdapter = new RecipeStepAdapter(getActivity().getApplicationContext(), recipeSteps,this);
             recipeStepsView.setAdapter(recipeStepAdapter);
@@ -65,19 +71,15 @@ public class BakingRecipeDetailFragment extends Fragment implements IRecipeStepC
 
     @Override
     public void onRecipeStepSelect(int recipeStep) {
-        System.out.println("--> Recipe Step Position is " + recipeStep);
 
         boolean isTablet = getResources().getBoolean(R.bool.isTablet);
         Bundle b = new Bundle();
 
-        if(recipeStep == 0){
-            b.putParcelableArrayList("ingredients",(ArrayList<? extends Parcelable>)ingredients);
-        }else{
-            Step step = steps.get(recipeStep-1);
-            if(step != null) {
-                b.putParcelable("step",step);
-            }
-        }
+        b.putParcelableArrayList("ingredients",(ArrayList<? extends Parcelable>)ingredients);
+        b.putParcelableArrayList("steps",(ArrayList<? extends Parcelable>)steps);
+        b.putInt("position",recipeStep-1);
+
+
         BakingRecipeStepDetailFragment bRSDF = new BakingRecipeStepDetailFragment();
         bRSDF.setArguments(b);
 
