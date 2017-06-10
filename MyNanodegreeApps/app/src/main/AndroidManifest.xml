@@ -39,6 +39,10 @@
             android:name=".bakingapp.BakingDetailActivity"
             android:label="@string/text_baking_detail" />
 
+        <activity
+            android:name=".bakingapp.BakingIngredientListActivity"
+            android:label="@string/text_baking_ingredient_detail" />
+
         <receiver android:name=".bakingapp.widget.BakingAppWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -48,6 +52,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/baking_app_widget_provide_info" />
         </receiver>
+
+        <service
+            android:name=".bakingapp.widget.BakingAppRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+
     </application>
 
 </manifest>

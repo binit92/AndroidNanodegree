@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.bakingapp.recipe;
+package com.mynanodegreeapps.bakingapp.util;
 
 public class RecipeStep {
 

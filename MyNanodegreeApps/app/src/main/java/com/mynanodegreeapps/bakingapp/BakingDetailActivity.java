@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mynanodegreeapps.R;
-import com.mynanodegreeapps.bakingapp.recipe.Ingredient;
-import com.mynanodegreeapps.bakingapp.recipe.Recipe;
-import com.mynanodegreeapps.bakingapp.recipe.Step;
+import com.mynanodegreeapps.bakingapp.model.Ingredient;
+import com.mynanodegreeapps.bakingapp.model.Recipe;
+import com.mynanodegreeapps.bakingapp.model.Step;
 
 import java.util.ArrayList;
 import java.util.List;

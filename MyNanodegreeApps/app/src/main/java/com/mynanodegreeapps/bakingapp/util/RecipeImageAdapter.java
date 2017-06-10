@@ -2,7 +2,6 @@ package com.mynanodegreeapps.bakingapp.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,10 +11,9 @@ import android.widget.ImageView;
 
 import com.mynanodegreeapps.R;
 import com.mynanodegreeapps.bakingapp.BakingDetailActivity;
-import com.mynanodegreeapps.bakingapp.recipe.Recipe;
+import com.mynanodegreeapps.bakingapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeImageAdapter extends RecyclerView.Adapter<RecipeImageAdapter.ViewHolder> {

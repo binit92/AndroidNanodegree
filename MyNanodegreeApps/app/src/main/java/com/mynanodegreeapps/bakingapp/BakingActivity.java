@@ -1,10 +1,12 @@
 package com.mynanodegreeapps.bakingapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,9 +16,11 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.mynanodegreeapps.R;
 import com.mynanodegreeapps.bakingapp.util.RecipeImageAdapter;
-import com.mynanodegreeapps.bakingapp.recipe.Ingredient;
-import com.mynanodegreeapps.bakingapp.recipe.Recipe;
-import com.mynanodegreeapps.bakingapp.recipe.Step;
+import com.mynanodegreeapps.bakingapp.model.Ingredient;
+import com.mynanodegreeapps.bakingapp.model.Recipe;
+import com.mynanodegreeapps.bakingapp.model.Step;
+import com.mynanodegreeapps.bakingapp.util.ResponseReader;
+import com.mynanodegreeapps.bakingapp.widget.BakingAppWidgetProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,12 +31,6 @@ import java.util.List;
 
 public class BakingActivity extends AppCompatActivity{
 
-    // Todo : Use url : https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json
-    // Todo : Use card and material design to enable us to click on whole card instead of just text.
-    // Todo : haven't used butterknife and other libraries
-
-    // private static final String SERVER_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58d1537b_baking/baking.json";
-    private static final String SERVER_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private String LOG_TAG = BakingActivity.class.getSimpleName();
 
     JsonArrayRequest recipeListRequest;
@@ -40,6 +38,7 @@ public class BakingActivity extends AppCompatActivity{
 
     RecyclerView recipeGrid;
     RecipeImageAdapter recipeImageAdapter;
+    public static List<Recipe> recipeArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +47,20 @@ public class BakingActivity extends AppCompatActivity{
 
         recipeGrid = (RecyclerView) findViewById(R.id.recipeGrid);
 
-        if(getResources().getBoolean(R.bool.isTablet)){
-            recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(),3));
-        }else{
-            recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(),1));
+        if (getResources().getBoolean(R.bool.isTablet)) {
+            recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        } else {
+            recipeGrid.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         }
 
         recipeGrid.setClickable(true);
         recipeListRequestQueue =  Volley.newRequestQueue(getApplicationContext());
         getRecipes();
+
     }
 
     private void getRecipes(){
-        Uri requestUri = Uri.parse(SERVER_URL);
+        Uri requestUri = Uri.parse(getString(R.string.SERVER_URL));
         recipeListRequest = new JsonArrayRequest(Request.Method.GET
                 ,requestUri.toString()
                 , null
@@ -68,47 +68,12 @@ public class BakingActivity extends AppCompatActivity{
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        List<Recipe> recipes = new ArrayList<>();
-                        try {
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject recipesObject = response.getJSONObject(i);
+                        // Todo : May be use a 3rdparty GSON library here !
+                        ResponseReader reader = new ResponseReader();
+                        List<Recipe> recipes = reader.parseJSON(response);
+                        recipeArrayList = recipes;
 
-                                int recipeid = recipesObject.getInt("id");
-                                String name = recipesObject.getString("name");
-                                JSONArray ingredients = recipesObject.getJSONArray("ingredients");
-                                JSONArray steps = recipesObject.getJSONArray("steps");
-                                String servings = recipesObject.getString("servings");
-                                String image = recipesObject.getString("image");
-
-                                List<Ingredient> ingredientList = new ArrayList<>();
-                                for(int j=0 ; j< ingredients.length();j++){
-                                    JSONObject ingredientObject = ingredients.getJSONObject(j);
-                                    String quantity = ingredientObject.getString("quantity");
-                                    String measure = ingredientObject.getString("measure");
-                                    String ingredient = ingredientObject.getString("ingredient");
-
-                                    ingredientList.add(new Ingredient(quantity,measure,ingredient));
-                                }
-
-                                List<Step> stepList = new ArrayList<>();
-                                for(int k=0; k<steps.length();k++){
-                                    JSONObject stepsObject = steps.getJSONObject(k);
-                                    int stepId= stepsObject.getInt("id");
-                                    String shortDesc = stepsObject.getString("shortDescription");
-                                    String desc = stepsObject.getString("description");
-                                    String videoUrl = stepsObject.getString("videoURL");
-                                    String thumbnailUrl = stepsObject.getString("thumbnailURL");
-
-                                    stepList.add(new Step(stepId,shortDesc,desc,videoUrl,thumbnailUrl));
-                                }
-
-                                recipes.add(new Recipe(recipeid,name,ingredientList,stepList,servings,image));
-                           }
-                        }catch (JSONException je){
-                            je.printStackTrace();
-                        }
-
-                        recipeImageAdapter = new RecipeImageAdapter(getApplicationContext(),recipes,RecipeImageAdapter.SOURCE_NETWORK);
+                        recipeImageAdapter = new RecipeImageAdapter(getApplicationContext(), recipeArrayList, RecipeImageAdapter.SOURCE_NETWORK);
                         recipeGrid.setAdapter(recipeImageAdapter);
 
                     }

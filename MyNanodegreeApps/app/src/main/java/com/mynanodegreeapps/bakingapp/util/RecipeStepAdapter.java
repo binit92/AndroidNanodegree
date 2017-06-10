@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mynanodegreeapps.R;
-import com.mynanodegreeapps.bakingapp.recipe.RecipeStep;
 
 import java.util.List;
 

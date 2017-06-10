@@ -1,4 +1,4 @@
-package com.mynanodegreeapps.bakingapp.recipe;
+package com.mynanodegreeapps.bakingapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

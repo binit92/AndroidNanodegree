@@ -13,16 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mynanodegreeapps.R;
-import com.mynanodegreeapps.bakingapp.recipe.Ingredient;
-import com.mynanodegreeapps.bakingapp.recipe.RecipeStep;
-import com.mynanodegreeapps.bakingapp.recipe.Step;
+import com.mynanodegreeapps.bakingapp.model.Ingredient;
+import com.mynanodegreeapps.bakingapp.util.RecipeStep;
+import com.mynanodegreeapps.bakingapp.model.Step;
 import com.mynanodegreeapps.bakingapp.util.IRecipeStepCallback;
 import com.mynanodegreeapps.bakingapp.util.RecipeStepAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.v7.recyclerview.R.attr.layoutManager;
 
 /* This RecipeDetailFragment is responsible to show the Steps*/
 

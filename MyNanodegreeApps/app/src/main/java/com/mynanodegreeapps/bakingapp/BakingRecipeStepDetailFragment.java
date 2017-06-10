@@ -2,7 +2,6 @@ package com.mynanodegreeapps.bakingapp;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
@@ -20,8 +19,8 @@ import com.devbrackets.android.exomedia.listener.OnPreparedListener;
 import com.devbrackets.android.exomedia.ui.widget.VideoView;
 
 import com.mynanodegreeapps.R;
-import com.mynanodegreeapps.bakingapp.recipe.Ingredient;
-import com.mynanodegreeapps.bakingapp.recipe.Step;
+import com.mynanodegreeapps.bakingapp.model.Ingredient;
+import com.mynanodegreeapps.bakingapp.model.Step;
 import com.mynanodegreeapps.bakingapp.util.IRecipeStepCallback;
 import com.squareup.picasso.Picasso;
 
@@ -159,19 +158,22 @@ public class BakingRecipeStepDetailFragment extends Fragment implements OnPrepar
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    setPosition(step.getStepId()-1);
+                if(step != null) {
+                    setPosition(step.getStepId() - 1);
+                }
             }
         });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setPosition(step.getStepId()+1);
+                if(step!= null) {
+                    setPosition(step.getStepId() + 1);
+                }
             }
         });
     }
     public void setPosition(int pos){
-        System.out.println("--> pos is "+ pos);
         position = pos;
         if(position>=0 && position<steps.size()) {
             step = steps.get(position);
