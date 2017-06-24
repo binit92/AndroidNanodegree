@@ -53,7 +53,9 @@ public class BakingRecipeStepDetailFragment extends Fragment implements OnPrepar
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        videoView.release();
+        if(videoView != null) {
+            videoView.release();
+        }
     }
 
     @Nullable
@@ -113,13 +115,13 @@ public class BakingRecipeStepDetailFragment extends Fragment implements OnPrepar
             TextView ingredientTextView = new TextView(getActivity().getApplicationContext());
 
             quantityTextView.setText(ingredient.getQuantity());
-            quantityTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            quantityTextView.setTextColor(getResources().getColor(R.color.colorBackground));
             quantityTextView.setPadding(2,2,2,2);
             measureTextView.setText(ingredient.getMeasure());
-            measureTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            measureTextView.setTextColor(getResources().getColor(R.color.colorBackground));
             measureTextView.setPadding(2,2,2,2);
             ingredientTextView.setText(ingredient.getIngredient());
-            ingredientTextView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            ingredientTextView.setTextColor(getResources().getColor(R.color.colorBackground));
             ingredientTextView.setPadding(2,2,2,2);
 
             linearLayout.addView(quantityTextView);

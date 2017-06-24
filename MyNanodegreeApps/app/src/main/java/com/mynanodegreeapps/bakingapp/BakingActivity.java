@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.mynanodegreeapps.R;
+import com.mynanodegreeapps.bakingapp.util.IVolleyCallback;
 import com.mynanodegreeapps.bakingapp.util.RecipeImageAdapter;
 import com.mynanodegreeapps.bakingapp.model.Ingredient;
 import com.mynanodegreeapps.bakingapp.model.Recipe;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BakingActivity extends AppCompatActivity{
+public class BakingActivity extends AppCompatActivity implements IVolleyCallback{
 
     private String LOG_TAG = BakingActivity.class.getSimpleName();
 
@@ -55,11 +56,11 @@ public class BakingActivity extends AppCompatActivity{
 
         recipeGrid.setClickable(true);
         recipeListRequestQueue =  Volley.newRequestQueue(getApplicationContext());
-        getRecipes();
+        getRecipes(this);
 
     }
 
-    private void getRecipes(){
+    private void getRecipes(final IVolleyCallback callback){
         Uri requestUri = Uri.parse(getString(R.string.SERVER_URL));
         recipeListRequest = new JsonArrayRequest(Request.Method.GET
                 ,requestUri.toString()
@@ -75,7 +76,9 @@ public class BakingActivity extends AppCompatActivity{
 
                         recipeImageAdapter = new RecipeImageAdapter(getApplicationContext(), recipeArrayList, RecipeImageAdapter.SOURCE_NETWORK);
                         recipeGrid.setAdapter(recipeImageAdapter);
-
+                        if(response != null) {
+                            callback.markSuccess();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -84,7 +87,17 @@ public class BakingActivity extends AppCompatActivity{
                     }
             });
 
-            recipeListRequest.setTag(LOG_TAG);
-            recipeListRequestQueue.add(recipeListRequest);
+        recipeListRequest.setTag(LOG_TAG);
+        recipeListRequestQueue.add(recipeListRequest);
+    }
+
+    @Override
+    public boolean markSuccess() {
+        Log.d(LOG_TAG," Successful reply ! ");
+        return true;
+    }
+
+    public RequestQueue getRequestQueue(){
+        return recipeListRequestQueue;
     }
 }
