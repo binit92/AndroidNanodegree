@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.mynanodegreeapps.R;
 
-public class Utils {
+public final class Utils {
     Context c;
 
-    Utils(Context c){
+    private Utils(Context c){
         this.c = c;
     }
 

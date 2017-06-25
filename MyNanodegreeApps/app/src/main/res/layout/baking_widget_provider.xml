@@ -17,10 +17,17 @@
         android:textSize="12sp"
         android:textStyle="bold|italic" />
 
-    <ListView
-        android:id="@+id/widgetList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/widgetList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+  </LinearLayout>
 
 
 </LinearLayout>

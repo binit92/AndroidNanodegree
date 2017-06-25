@@ -23,7 +23,6 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
         // Construct the RemoteViews object
         RemoteViews views = getBakingListView(context);
-
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -71,13 +70,22 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context,BakingAppRemoteViewService.class);
         views.setRemoteAdapter(R.id.widgetList ,intent);
 
-        Intent ingredientIntent = new Intent(context, BakingIngredientListActivity.class);
+        Intent ingredientIntent = new Intent(context,BakingAppRemoteViewService.class);
         PendingIntent ingredientPendingIntent = PendingIntent.getActivity(
                 context,
                 0,
                 ingredientIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
         views.setPendingIntentTemplate(R.id.widgetList,ingredientPendingIntent);
+//
+//        Intent ingredientIntent = new Intent(context, BakingIngredientListActivity.class);
+//        PendingIntent ingredientPendingIntent = PendingIntent.getActivity(
+//                context,
+//                0,
+//                ingredientIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT);
+//        views.setPendingIntentTemplate(R.id.widgetList,ingredientPendingIntent);
 
         return views;
     }

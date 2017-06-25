@@ -8,6 +8,10 @@ import com.mynanodegreeapps.movies.data.MovieContract.MovieEntry;
 import com.mynanodegreeapps.movies.data.MovieContract.TrailerEntry;
 import com.mynanodegreeapps.movies.data.MovieContract.ReviewEntry;
 
+/* Todo : to avoid lots of boiler plate code
+ Sugar ORM and Realm can be used
+*/
+
 public class MovieDBHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must update the database version
@@ -66,6 +70,9 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         // It does NOT depend on the version number for your application.
         // If you want to update the schema without wiping data, commenting out the next 2 lines
         // should be your top priority before modifying this method.
+
+        // Todo : avoid dropping the table in production ready code
+
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MovieEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TrailerEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ReviewEntry.TABLE_NAME);

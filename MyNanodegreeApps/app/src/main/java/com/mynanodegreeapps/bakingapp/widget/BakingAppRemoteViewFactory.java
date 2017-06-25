@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.mynanodegreeapps.R;
 import com.mynanodegreeapps.bakingapp.BakingActivity;
 import com.mynanodegreeapps.bakingapp.BakingRecipeDetailFragment;
+import com.mynanodegreeapps.bakingapp.model.Ingredient;
 import com.mynanodegreeapps.bakingapp.model.Recipe;
 import com.mynanodegreeapps.bakingapp.util.ResponseReader;
 
@@ -67,14 +72,24 @@ public class BakingAppRemoteViewFactory implements RemoteViewsService.RemoteView
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.baking_widget_item);
         rv.setTextViewText(R.id.recipeName, recipeArrayList.get(pos).getName());
 
-        // Fill in the onClick PendingIntent Template for each recipe
-        Bundle extras = new Bundle();
         int id = recipeArrayList.get(pos).getRecipeId();
+
+        // Fill in the onClick PendingIntent Template for each recipe
+/*
+        Bundle extras = new Bundle();
         extras.putInt("id",id);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         rv.setOnClickFillInIntent(R.id.recipeName,fillInIntent);
+*/
 
+        List<Ingredient> ingredients = getIngredients(id-1);
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("INGREDIENTS : ");
+        for(int i=0; i<ingredients.size(); i++){
+            buffer.append(ingredients.get(i).getIngredient() + "");
+        }
+        rv.setTextViewText(R.id.ingredients,buffer.toString());
         return rv;
     }
 
@@ -123,4 +138,31 @@ public class BakingAppRemoteViewFactory implements RemoteViewsService.RemoteView
         recipeListRequestQueue.add(recipeListRequest);
     }
 
+    public List<Ingredient> getIngredients(int recipeId){
+
+        if(recipeArrayList.isEmpty()){
+
+            Uri requestUri = Uri.parse(mContext.getString(R.string.SERVER_URL));
+            RequestQueue recipeListRequestQueue  =  Volley.newRequestQueue(mContext);;
+            JsonArrayRequest recipeListRequest = new JsonArrayRequest(Request.Method.GET
+                    ,requestUri.toString()
+                    , null
+                    ,new Response.Listener<JSONArray>(){
+                @Override
+                public void onResponse(JSONArray response) {
+
+                    ResponseReader reader = new ResponseReader();
+                    List<Recipe> recipes = reader.parseJSON(response);
+                    recipeArrayList = recipes;
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+        }
+        return recipeArrayList.get(recipeId).getIngredients();
+
+    }
 }

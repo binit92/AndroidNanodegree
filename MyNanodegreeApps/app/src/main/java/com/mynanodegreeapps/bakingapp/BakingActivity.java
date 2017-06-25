@@ -1,5 +1,7 @@
 package com.mynanodegreeapps.bakingapp;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,11 +36,11 @@ public class BakingActivity extends AppCompatActivity implements IVolleyCallback
 
     private String LOG_TAG = BakingActivity.class.getSimpleName();
 
-    JsonArrayRequest recipeListRequest;
-    RequestQueue recipeListRequestQueue;
+    private JsonArrayRequest recipeListRequest;
+    private RequestQueue recipeListRequestQueue;
 
-    RecyclerView recipeGrid;
-    RecipeImageAdapter recipeImageAdapter;
+    private RecyclerView recipeGrid;
+    private RecipeImageAdapter recipeImageAdapter;
     public static List<Recipe> recipeArrayList = new ArrayList<>();
 
     @Override
@@ -60,7 +62,7 @@ public class BakingActivity extends AppCompatActivity implements IVolleyCallback
 
     }
 
-    private void getRecipes(final IVolleyCallback callback){
+    public  void getRecipes(final IVolleyCallback callback){
         Uri requestUri = Uri.parse(getString(R.string.SERVER_URL));
         recipeListRequest = new JsonArrayRequest(Request.Method.GET
                 ,requestUri.toString()
@@ -94,10 +96,21 @@ public class BakingActivity extends AppCompatActivity implements IVolleyCallback
     @Override
     public boolean markSuccess() {
         Log.d(LOG_TAG," Successful reply ! ");
+        updateWidget();
         return true;
     }
 
     public RequestQueue getRequestQueue(){
         return recipeListRequestQueue;
+    }
+
+    private void updateWidget(){
+        Intent intent = new Intent(this,BakingAppWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), BakingAppWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        sendBroadcast(intent);
     }
 }
